@@ -109,4 +109,7 @@
     <Error Condition="!Exists('..\packages\TidyBuild.1.1.0\build\TidyBuild.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\TidyBuild.1.1.0\build\TidyBuild.targets'))" />
   </Target>
   <Import Project="..\packages\TidyBuild.1.1.0\build\TidyBuild.targets" Condition="Exists('..\packages\TidyBuild.1.1.0\build\TidyBuild.targets')" />
+  <Target Name="AfterBuild" Condition="'$(Configuration)'=='Release'">
+    <Exec Command='"$(NugetDir)nuget.exe" pack "$(MSBuildThisFileFullPath)" -OutputDirectory "$(SolutionDir)nuget-out" -Properties "OutputPath=$(OutputPath)\" -Version $(FullVersion)' />
+  </Target>
 </Project>

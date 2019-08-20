@@ -4,5 +4,6 @@
 
   <PropertyGroup>
     <FullVersion Condition="'$(FullVersion)'==''">1.0.0</FullVersion>
+    <NugetDir Condition="'$(NugetDir)'==''">$(MSBuildThisFileDirectory)..\..\Tools\</NugetDir>
   </PropertyGroup>
 </Project>
