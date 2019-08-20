@@ -2,6 +2,8 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace PanelSW.WPF.Controls
 {
@@ -94,13 +96,7 @@ namespace PanelSW.WPF.Controls
 
         #region Watermark
 
-        public static readonly DependencyProperty WatermarkProperty = DependencyProperty.Register("Watermark", typeof(string), typeof(EyePasswordBox), new PropertyMetadata("", new PropertyChangedCallback(OnWatermarkChanged)));
-        private static void OnWatermarkChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            EyePasswordBox me = d as EyePasswordBox;
-            me.Watermark = e.NewValue as string;
-        }
-
+        public static readonly DependencyProperty WatermarkProperty = DependencyProperty.Register("Watermark", typeof(string), typeof(EyePasswordBox), new FrameworkPropertyMetadata("", FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         public string Watermark
         {
             get
@@ -117,13 +113,7 @@ namespace PanelSW.WPF.Controls
 
         #region Text Padding
 
-        public static readonly DependencyProperty TextPaddingProperty = DependencyProperty.Register("TextPadding", typeof(Thickness), typeof(EyePasswordBox), new PropertyMetadata(new Thickness(0, 0, 0, 0), new PropertyChangedCallback(OnTextPaddingChanged)));
-        private static void OnTextPaddingChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            EyePasswordBox me = d as EyePasswordBox;
-            me.TextPadding = (Thickness)e.NewValue;
-        }
-
+        public static readonly DependencyProperty TextPaddingProperty = DependencyProperty.Register("TextPadding", typeof(Thickness), typeof(EyePasswordBox), new PropertyMetadata(new Thickness(0, 0, 0, 0)));
         public Thickness TextPadding
         {
             get
@@ -138,20 +128,36 @@ namespace PanelSW.WPF.Controls
 
         #endregion
 
-        #region Eye Image Height
+        #region Eye Image
 
-        public static readonly DependencyProperty EyeHeightProperty = DependencyProperty.Register("EyeHeight", typeof(int), typeof(EyePasswordBox), new PropertyMetadata(32, new PropertyChangedCallback(OnEyeHeightChanged)));
-        private static void OnEyeHeightChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            EyePasswordBox me = d as EyePasswordBox;
-            me.EyeHeight = (int)e.NewValue;
-        }
+        public static readonly DependencyProperty EyeImageProperty = DependencyProperty.Register("EyeImage", typeof(ImageSource), typeof(EyePasswordBox)
+            , new PropertyMetadata(
+                new BitmapImage(
+                    // Eye image with Apache 2.0 license downloaded from http://www.iconarchive.com/show/noto-emoji-people-clothing-objects-icons-by-google/12125-eye-icon.html
+                    new Uri("pack://application:,,,/PanelSwWpfControls;component/Resources/Eye.png"))));
 
-        public int EyeHeight
+        public ImageSource EyeImage
         {
             get
             {
-                return (int)GetValue(EyeHeightProperty);
+                return (ImageSource)GetValue(EyeImageProperty);
+            }
+            set
+            {
+                SetValue(EyeImageProperty, value);
+            }
+        }
+
+        #endregion
+
+        #region Eye Image Height
+
+        public static readonly DependencyProperty EyeHeightProperty = DependencyProperty.Register("EyeHeight", typeof(double), typeof(EyePasswordBox), new FrameworkPropertyMetadata(32d, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        public double EyeHeight
+        {
+            get
+            {
+                return (double)GetValue(EyeHeightProperty);
             }
             set
             {
@@ -163,18 +169,12 @@ namespace PanelSW.WPF.Controls
 
         #region Eye Image Width
 
-        public static readonly DependencyProperty EyeWidthProperty = DependencyProperty.Register("EyeWidth", typeof(int), typeof(EyePasswordBox), new PropertyMetadata(32, new PropertyChangedCallback(OnEyeWidthChanged)));
-        private static void OnEyeWidthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            EyePasswordBox me = d as EyePasswordBox;
-            me.EyeWidth = (int)e.NewValue;
-        }
-
-        public int EyeWidth
+        public static readonly DependencyProperty EyeWidthProperty = DependencyProperty.Register("EyeWidth", typeof(double), typeof(EyePasswordBox), new FrameworkPropertyMetadata(32d, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        public double EyeWidth
         {
             get
             {
-                return (int)GetValue(EyeWidthProperty);
+                return (double)GetValue(EyeWidthProperty);
             }
             set
             {
