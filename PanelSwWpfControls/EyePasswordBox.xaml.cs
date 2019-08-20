@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace PanelSW.WPF.Controls
 {
@@ -13,6 +14,8 @@ namespace PanelSW.WPF.Controls
         {
             InitializeComponent();
             passwordBox_.PasswordChanged += PasswordBox__PasswordChanged;
+            btnShowPassword_.AddHandler(MouseLeftButtonDownEvent, new MouseButtonEventHandler(btnShowPassword__Mouse), true);
+            btnShowPassword_.AddHandler(MouseLeftButtonUpEvent, new MouseButtonEventHandler(btnShowPassword__Mouse), true);
         }
 
         #region Password
@@ -27,15 +30,22 @@ namespace PanelSW.WPF.Controls
             }
         }
 
+        private void btnShowPassword__Mouse(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            IsShowingPlainPassword = btnShowPassword_.IsPressed;
+            passwordBox_.Visibility = IsShowingPlainPassword ? Visibility.Collapsed : Visibility.Visible;
+            plainTextBox_.Visibility = IsShowingPlainPassword ? Visibility.Visible : Visibility.Collapsed;
+        }
+
         private void PasswordBox__PasswordChanged(object sender, RoutedEventArgs e)
         {
             Dispatcher.Invoke((Action)delegate ()
             {
-               if (passwordBox_.Password != Password)
-               {
-                   Password = passwordBox_.Password;
-               }
-           });
+                if (passwordBox_.Password != Password)
+                {
+                    Password = passwordBox_.Password;
+                }
+            });
         }
 
         public string Password
@@ -48,6 +58,36 @@ namespace PanelSW.WPF.Controls
             {
                 SetValue(PasswordProperty, value);
             }
+        }
+
+        #endregion
+
+        #region IsShowingPlainPassword
+
+        public static readonly DependencyProperty IsShowingPlainPasswordProperty = DependencyProperty.Register("IsShowingPlainPassword", typeof(bool), typeof(EyePasswordBox), new PropertyMetadata(false, new PropertyChangedCallback(OnIsShowingPlainPasswordChanged)));
+        private static void OnIsShowingPlainPasswordChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            EyePasswordBox me = d as EyePasswordBox;
+            me.RaiseEvent(new RoutedEventArgs(IsShowingPlainPasswordChangedEvent));
+        }
+
+        public bool IsShowingPlainPassword
+        {
+            get
+            {
+                return (bool)GetValue(IsShowingPlainPasswordProperty);
+            }
+            private set
+            {
+                SetValue(IsShowingPlainPasswordProperty, value);
+            }
+        }
+
+        public static readonly RoutedEvent IsShowingPlainPasswordChangedEvent = EventManager.RegisterRoutedEvent("IsShowingPlainPassword", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(EyePasswordBox));
+        public event RoutedEventHandler IsShowingPlainPasswordChanged
+        {
+            add { AddHandler(IsShowingPlainPasswordChangedEvent, value); }
+            remove { RemoveHandler(IsShowingPlainPasswordChangedEvent, value); }
         }
 
         #endregion
