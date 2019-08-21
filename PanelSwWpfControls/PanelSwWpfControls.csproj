@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\TidyBuild.1.1.0\build\TidyBuild.props" Condition="Exists('..\packages\TidyBuild.1.1.0\build\TidyBuild.props')" />
+  <Import Project="..\packages\TidyBuild.1.1.1\build\TidyBuild.props" Condition="Exists('..\packages\TidyBuild.1.1.1\build\TidyBuild.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -89,7 +89,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -105,11 +107,11 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\MSBuildTasks.1.5.0.235\build\MSBuildTasks.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MSBuildTasks.1.5.0.235\build\MSBuildTasks.targets'))" />
-    <Error Condition="!Exists('..\packages\TidyBuild.1.1.0\build\TidyBuild.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\TidyBuild.1.1.0\build\TidyBuild.props'))" />
-    <Error Condition="!Exists('..\packages\TidyBuild.1.1.0\build\TidyBuild.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\TidyBuild.1.1.0\build\TidyBuild.targets'))" />
+    <Error Condition="!Exists('..\packages\TidyBuild.1.1.1\build\TidyBuild.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\TidyBuild.1.1.1\build\TidyBuild.props'))" />
+    <Error Condition="!Exists('..\packages\TidyBuild.1.1.1\build\TidyBuild.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\TidyBuild.1.1.1\build\TidyBuild.targets'))" />
   </Target>
-  <Import Project="..\packages\TidyBuild.1.1.0\build\TidyBuild.targets" Condition="Exists('..\packages\TidyBuild.1.1.0\build\TidyBuild.targets')" />
   <Target Name="AfterBuild" Condition="'$(Configuration)'=='Release'">
-    <Exec Command='"$(NugetDir)nuget.exe" pack "$(MSBuildThisFileFullPath)" -OutputDirectory "$(SolutionDir)nuget-out" -Properties "OutputPath=$(OutputPath)\" -Version $(FullVersion)' />
+    <Exec Command="&quot;$(NugetDir)nuget.exe&quot; pack &quot;$(MSBuildThisFileFullPath)&quot; -OutputDirectory &quot;$(SolutionDir)nuget-out&quot; -Properties &quot;OutputPath=$(OutputPath)\&quot; -Version $(FullVersion)" />
   </Target>
+  <Import Project="..\packages\TidyBuild.1.1.1\build\TidyBuild.targets" Condition="Exists('..\packages\TidyBuild.1.1.1\build\TidyBuild.targets')" />
 </Project>
