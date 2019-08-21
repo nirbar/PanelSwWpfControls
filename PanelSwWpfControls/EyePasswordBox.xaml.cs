@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Runtime.InteropServices;
+using System.Security;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -20,45 +22,68 @@ namespace PanelSW.WPF.Controls
             btnShowPassword_.AddHandler(MouseLeftButtonUpEvent, new MouseButtonEventHandler(btnShowPassword__Mouse), true);
         }
 
-        #region Password
+        #region SecurePassword
 
-        public static readonly DependencyProperty PasswordProperty = DependencyProperty.Register("Password", typeof(string), typeof(EyePasswordBox), new FrameworkPropertyMetadata("", FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, new PropertyChangedCallback(OnPasswordChanged)));
-        private static void OnPasswordChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        public static readonly DependencyProperty SecurePasswordProperty = DependencyProperty.Register("SecurePassword", typeof(SecureString), typeof(EyePasswordBox), new FrameworkPropertyMetadata(new SecureString(), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnSecurePasswordChanged));
+        private static void OnSecurePasswordChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             EyePasswordBox me = d as EyePasswordBox;
-            if (me.passwordBox_.Password != me.Password)
+            if (me.passwordBox_.SecurePassword != me.SecurePassword)
             {
-                me.passwordBox_.Password = me.Password;
+                IntPtr valuePtr = IntPtr.Zero;
+                try
+                {
+                    me.passwordBox_.SecurePassword.Clear();
+                    valuePtr = Marshal.SecureStringToGlobalAllocUnicode(me.SecurePassword);
+                    me.passwordBox_.Password = Marshal.PtrToStringUni(valuePtr);
+                }
+                finally
+                {
+                    if (valuePtr != IntPtr.Zero)
+                    {
+                        Marshal.ZeroFreeGlobalAllocUnicode(valuePtr);
+                    }
+                }
             }
         }
 
         private void btnShowPassword__Mouse(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             IsShowingPlainPassword = btnShowPassword_.IsPressed;
-            passwordBox_.Visibility = IsShowingPlainPassword ? Visibility.Collapsed : Visibility.Visible;
-            plainTextBox_.Visibility = IsShowingPlainPassword ? Visibility.Visible : Visibility.Collapsed;
+            if (IsShowingPlainPassword)
+            {
+                plainTextBox_.Text = passwordBox_.Password;
+                plainTextBox_.Visibility = Visibility.Visible;
+                passwordBox_.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                plainTextBox_.Text = "";
+                plainTextBox_.Visibility = Visibility.Collapsed;
+                passwordBox_.Visibility = Visibility.Visible;
+            }
         }
 
         private void PasswordBox__PasswordChanged(object sender, RoutedEventArgs e)
         {
             Dispatcher.Invoke((Action)delegate ()
             {
-                if (passwordBox_.Password != Password)
+                if (passwordBox_.SecurePassword != SecurePassword)
                 {
-                    Password = passwordBox_.Password;
+                    SecurePassword = passwordBox_.SecurePassword;
                 }
             });
         }
 
-        public string Password
+        public SecureString SecurePassword
         {
             get
             {
-                return (string)GetValue(PasswordProperty);
+                return (SecureString)GetValue(SecurePasswordProperty);
             }
             set
             {
-                SetValue(PasswordProperty, value);
+                SetValue(SecurePasswordProperty, value);
             }
         }
 

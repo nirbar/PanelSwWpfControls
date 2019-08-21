@@ -1,17 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.InteropServices;
+using System.Security;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Test
 {
@@ -22,7 +12,41 @@ namespace Test
     {
         public MainWindow()
         {
+            SecurePassword = new SecureString();
+            SecurePassword.AppendChar('p');
+            SecurePassword.AppendChar('a');
+            SecurePassword.AppendChar('s');
+            SecurePassword.AppendChar('s');
+            SecurePassword.AppendChar('w');
+            SecurePassword.AppendChar('o');
+            SecurePassword.AppendChar('r');
+            SecurePassword.AppendChar('d');
+            SecurePassword.AppendChar('!');
+
+            DataContext = this;
             InitializeComponent();
+
+            IsVisibleChanged += MainWindow_IsVisibleChanged;
         }
+
+        private void MainWindow_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            IntPtr valuePtr = IntPtr.Zero;
+            try
+            {
+                valuePtr = Marshal.SecureStringToGlobalAllocUnicode(SecurePassword);
+                string psw = Marshal.PtrToStringUni(valuePtr);
+                System.Diagnostics.Debugger.Log(0, "Debug", $"SecurePassword='{psw}'{Environment.NewLine}");
+            }
+            finally
+            {
+                if (valuePtr != IntPtr.Zero)
+                {
+                    Marshal.ZeroFreeGlobalAllocUnicode(valuePtr);
+                }
+            }
+        }
+
+        public SecureString SecurePassword { get; set; }
     }
 }
