@@ -39,7 +39,14 @@ namespace PanelSW.WPF.Controls
                 try
                 {
                     valuePtr = Marshal.SecureStringToGlobalAllocUnicode(me.SecurePassword);
-                    me.passwordBox_.Password = Marshal.PtrToStringUni(valuePtr);
+                    me.passwordBox_.SecurePassword.Clear();
+                    for (int i = 0; i < me.SecurePassword.Length; ++i)
+                    {
+                        char c = (char)Marshal.ReadInt16(valuePtr, 2 * i);
+                        me.passwordBox_.SecurePassword.AppendChar(c);
+                    }
+                    // Workaround since WatermarkPasswordBox doesn't automatically update the text.
+                    me.passwordBox_.Text = new string(me.passwordBox_.PasswordChar, me.SecurePassword.Length);
                 }
                 finally
                 {
@@ -51,7 +58,7 @@ namespace PanelSW.WPF.Controls
             }
         }
 
-        private void btnShowPassword__Mouse(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void btnShowPassword__Mouse(object sender, MouseButtonEventArgs e)
         {
             IsShowingPlainPassword = btnShowPassword_.IsPressed;
             if (IsShowingPlainPassword)
