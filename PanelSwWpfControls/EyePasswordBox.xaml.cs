@@ -12,7 +12,7 @@ namespace PanelSW.WPF.Controls
     /// <summary>
     /// Interaction logic for EyePasswordBox.xaml
     /// </summary>
-    public partial class EyePasswordBox : UserControl
+    public partial class EyePasswordBox : UserControl, IDisposable
     {
         public EyePasswordBox()
         {
@@ -20,6 +20,11 @@ namespace PanelSW.WPF.Controls
             passwordBox_.PasswordChanged += PasswordBox__PasswordChanged;
             btnShowPassword_.AddHandler(MouseLeftButtonDownEvent, new MouseButtonEventHandler(btnShowPassword__Mouse), true);
             btnShowPassword_.AddHandler(MouseLeftButtonUpEvent, new MouseButtonEventHandler(btnShowPassword__Mouse), true);
+        }
+
+        void IDisposable.Dispose()
+        {
+            SecurePassword.Dispose();
         }
 
         #region SecurePassword
@@ -33,7 +38,6 @@ namespace PanelSW.WPF.Controls
                 IntPtr valuePtr = IntPtr.Zero;
                 try
                 {
-                    me.passwordBox_.SecurePassword.Clear();
                     valuePtr = Marshal.SecureStringToGlobalAllocUnicode(me.SecurePassword);
                     me.passwordBox_.Password = Marshal.PtrToStringUni(valuePtr);
                 }
