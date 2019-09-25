@@ -10,13 +10,32 @@
     <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
         </Grid.ColumnDefinitions>
 
-        <controls:EyePasswordBox SecurePassword="{Binding SecurePassword, UpdateSourceTrigger=PropertyChanged}" 
+        <controls:EyePasswordBox Grid.Row="0" Grid.Column="0" SecurePassword="{Binding SecurePassword, UpdateSourceTrigger=PropertyChanged}" 
                                  Watermark="Password here" 
                                  BorderThickness="1" BorderBrush="Gray" TextPadding="16,0,0,0"/>
+        <controls:WaitableButton Grid.Row="1" Grid.Column="0" Click="WaitableButton_Click">
+            <controls:WaitableButton.Style>
+                <Style TargetType="controls:WaitableButton">
+                    <Style.Triggers>
+                        <Trigger Property="IsWaiting" Value="True">
+                            <Setter Property="IsEnabled" Value="False"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="controls:WaitableButton">
+                                        <ProgressBar IsIndeterminate="True"/>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </controls:WaitableButton.Style>
+        </controls:WaitableButton>
     </Grid>
 </Window>

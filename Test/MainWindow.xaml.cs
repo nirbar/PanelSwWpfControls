@@ -1,6 +1,9 @@
-﻿using System;
+﻿using PanelSW.WPF.Controls;
+using System;
 using System.Runtime.InteropServices;
 using System.Security;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace Test
@@ -48,5 +51,16 @@ namespace Test
         }
 
         public SecureString SecurePassword { get; set; }
+
+        private void WaitableButton_Click(object sender, RoutedEventArgs e)
+        {
+            WaitableButton btn = sender as WaitableButton;
+            btn.IsWaiting = !btn.IsWaiting;
+            Task.Factory.StartNew(() =>
+            {
+                Thread.Sleep(5000);
+                Dispatcher.Invoke(() => btn.IsWaiting = !btn.IsWaiting);
+            });
+        }
     }
 }

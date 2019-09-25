@@ -7,7 +7,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{C8187384-43BC-4A0B-A40A-2F2E46B2D597}</ProjectGuid>
     <OutputType>library</OutputType>
-    <RootNamespace>PanelSwWpfControls</RootNamespace>
+    <RootNamespace>PanelSW.WPF.Controls</RootNamespace>
     <AssemblyName>PanelSwWpfControls</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -85,6 +85,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="WaitableButton.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
