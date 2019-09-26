@@ -63,15 +63,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="EyePasswordBox.xaml">
+    <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EyePasswordBox.xaml.cs">
-      <DependentUpon>EyePasswordBox.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="EyePasswordBox.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

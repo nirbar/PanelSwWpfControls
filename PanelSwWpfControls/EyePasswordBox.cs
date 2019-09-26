@@ -3,29 +3,89 @@ using System.Runtime.InteropServices;
 using System.Security;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Xceed.Wpf.Toolkit;
 
 namespace PanelSW.WPF.Controls
 {
     /// <summary>
     /// Interaction logic for EyePasswordBox.xaml
     /// </summary>
-    public partial class EyePasswordBox : UserControl, IDisposable
+    [TemplatePart(Name = "PART_WatermarkPasswordBox", Type = typeof(WatermarkPasswordBox))]
+    [TemplatePart(Name = "PART_ShowPasswordButton", Type = typeof(ButtonBase))]
+    [TemplatePart(Name = "PART_PlainTextBox", Type = typeof(TextBox))]
+    [TemplateVisualState(Name = "HiddenPassword", GroupName = "ValueStates")]
+    [TemplateVisualState(Name = "PlainPassword", GroupName = "ValueStates")]
+    public partial class EyePasswordBox : Control, IDisposable
     {
         public EyePasswordBox()
         {
-            InitializeComponent();
-            passwordBox_.PasswordChanged += PasswordBox__PasswordChanged;
-            btnShowPassword_.AddHandler(MouseLeftButtonDownEvent, new MouseButtonEventHandler(btnShowPassword__Mouse), true);
-            btnShowPassword_.AddHandler(MouseLeftButtonUpEvent, new MouseButtonEventHandler(btnShowPassword__Mouse), true);
+        }
+
+        static EyePasswordBox()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(EyePasswordBox), new FrameworkPropertyMetadata(typeof(EyePasswordBox)));
+        }
+
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+
+            WatermarkPasswordBox = GetTemplateChild("PART_WatermarkPasswordBox") as WatermarkPasswordBox;
+            ShowPasswordButton = GetTemplateChild("PART_ShowPasswordButton") as ButtonBase;
+            PlainTextBox = GetTemplateChild("PART_PlainTextBox") as TextBox;
         }
 
         void IDisposable.Dispose()
         {
             SecurePassword.Dispose();
+            WatermarkPasswordBox?.SecurePassword?.Dispose();
         }
+
+        private WatermarkPasswordBox watermarkPasswordBox_ = null;
+        private WatermarkPasswordBox WatermarkPasswordBox
+        {
+            get => watermarkPasswordBox_;
+            set
+            {
+                if (watermarkPasswordBox_ != null)
+                {
+                    watermarkPasswordBox_.PasswordChanged -= PasswordBox__PasswordChanged;
+                }
+
+                watermarkPasswordBox_ = value;
+                if (watermarkPasswordBox_ != null)
+                {
+                    watermarkPasswordBox_.PasswordChanged += PasswordBox__PasswordChanged;
+                }
+            }
+        }
+
+        private ButtonBase showPasswordButton_ = null;
+        private ButtonBase ShowPasswordButton
+        {
+            get => showPasswordButton_;
+            set
+            {
+                if (showPasswordButton_ != null)
+                {
+                    showPasswordButton_.RemoveHandler(MouseLeftButtonDownEvent, new MouseButtonEventHandler(btnShowPassword__Mouse));
+                    showPasswordButton_.RemoveHandler(MouseLeftButtonUpEvent, new MouseButtonEventHandler(btnShowPassword__Mouse));
+                }
+
+                showPasswordButton_ = value;
+                if (showPasswordButton_ != null)
+                {
+                    showPasswordButton_.AddHandler(MouseLeftButtonDownEvent, new MouseButtonEventHandler(btnShowPassword__Mouse), true);
+                    showPasswordButton_.AddHandler(MouseLeftButtonUpEvent, new MouseButtonEventHandler(btnShowPassword__Mouse), true);
+                }
+            }
+        }
+
+        private TextBox PlainTextBox { get; set; } = null;
 
         #region SecurePassword
 
@@ -33,20 +93,25 @@ namespace PanelSW.WPF.Controls
         private static void OnSecurePasswordChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             EyePasswordBox me = d as EyePasswordBox;
-            if (me.passwordBox_.SecurePassword != me.SecurePassword)
+            if (me.WatermarkPasswordBox == null)
+            {
+                return;
+            }
+
+            if (me.WatermarkPasswordBox.SecurePassword != me.SecurePassword)
             {
                 IntPtr valuePtr = IntPtr.Zero;
                 try
                 {
                     valuePtr = Marshal.SecureStringToGlobalAllocUnicode(me.SecurePassword);
-                    me.passwordBox_.SecurePassword.Clear();
+                    me.WatermarkPasswordBox.SecurePassword.Clear();
                     for (int i = 0; i < me.SecurePassword.Length; ++i)
                     {
                         char c = (char)Marshal.ReadInt16(valuePtr, 2 * i);
-                        me.passwordBox_.SecurePassword.AppendChar(c);
+                        me.WatermarkPasswordBox.SecurePassword.AppendChar(c);
                     }
                     // Workaround since WatermarkPasswordBox doesn't automatically update the text.
-                    me.passwordBox_.Text = new string(me.passwordBox_.PasswordChar, me.SecurePassword.Length);
+                    me.WatermarkPasswordBox.Text = new string(me.WatermarkPasswordBox.PasswordChar, me.SecurePassword.Length);
                 }
                 finally
                 {
@@ -60,18 +125,32 @@ namespace PanelSW.WPF.Controls
 
         private void btnShowPassword__Mouse(object sender, MouseButtonEventArgs e)
         {
-            IsShowingPlainPassword = btnShowPassword_.IsPressed;
+            IsShowingPlainPassword = ShowPasswordButton?.IsPressed ?? false;
             if (IsShowingPlainPassword)
             {
-                plainTextBox_.Text = passwordBox_.Password;
-                plainTextBox_.Visibility = Visibility.Visible;
-                passwordBox_.Visibility = Visibility.Collapsed;
+                VisualStateManager.GoToState(this, "PlainPassword", true);
+                if (PlainTextBox != null)
+                {
+                    PlainTextBox.Text = WatermarkPasswordBox?.Password ?? string.Empty;
+                    PlainTextBox.Visibility = Visibility.Visible;
+                }
+                if (WatermarkPasswordBox != null)
+                {
+                    WatermarkPasswordBox.Visibility = Visibility.Collapsed;
+                }
             }
             else
             {
-                plainTextBox_.Text = "";
-                plainTextBox_.Visibility = Visibility.Collapsed;
-                passwordBox_.Visibility = Visibility.Visible;
+                VisualStateManager.GoToState(this, "HiddenPassword", true);
+                if (PlainTextBox != null)
+                {
+                    PlainTextBox.Text = "";
+                    PlainTextBox.Visibility = Visibility.Collapsed;
+                }
+                if (WatermarkPasswordBox != null)
+                {
+                    WatermarkPasswordBox.Visibility = Visibility.Visible;
+                }
             }
         }
 
@@ -79,9 +158,9 @@ namespace PanelSW.WPF.Controls
         {
             Dispatcher.Invoke((Action)delegate ()
             {
-                if (passwordBox_.SecurePassword != SecurePassword)
+                if (WatermarkPasswordBox.SecurePassword != SecurePassword)
                 {
-                    SecurePassword = passwordBox_.SecurePassword;
+                    SecurePassword = WatermarkPasswordBox.SecurePassword;
                 }
             });
         }

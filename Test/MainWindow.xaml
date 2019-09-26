@@ -19,6 +19,7 @@
         <controls:EyePasswordBox Grid.Row="0" Grid.Column="0" SecurePassword="{Binding SecurePassword, UpdateSourceTrigger=PropertyChanged}" 
                                  Watermark="Password here" 
                                  BorderThickness="1" BorderBrush="Gray" TextPadding="16,0,0,0"/>
+        
         <controls:WaitableButton Grid.Row="1" Grid.Column="0" Click="WaitableButton_Click">
             <controls:WaitableButton.Style>
                 <Style TargetType="controls:WaitableButton">
