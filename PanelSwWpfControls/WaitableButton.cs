@@ -3,18 +3,8 @@ using System.Windows.Controls;
 
 namespace PanelSW.WPF.Controls
 {
-    [TemplatePart(Name = "PART_Button", Type = typeof(Button))]
-    [TemplateVisualState(Name = "Waiting", GroupName = "ValueStates")]
-    [TemplateVisualState(Name = "Ready", GroupName = "ValueStates")]
     public class WaitableButton : Button
     {
-        public override void OnApplyTemplate()
-        {
-            button_ = GetTemplateChild("PART_Button") as Button;
-        }
-
-        private Button button_ = null;
-
         #region IsWaiting
 
         public static readonly DependencyProperty IsWaitingProperty = DependencyProperty.Register("IsWaiting", typeof(bool), typeof(WaitableButton), new PropertyMetadata(false));
