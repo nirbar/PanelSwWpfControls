@@ -23,6 +23,7 @@ namespace PanelSW.WPF.Controls
     {
         public EyePasswordBox()
         {
+            Focusable = false;
         }
 
         static EyePasswordBox()

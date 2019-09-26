@@ -8,14 +8,13 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:EyePasswordBox}">
                     <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Focusable="False">
-                        
+
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup Name="ValueStates">
                                 <VisualState Name="HiddenPassword"/>
                                 <VisualState Name="PlainPassword">
                                     <Storyboard>
-                                        <ColorAnimation To="Red" Duration="0:0:5" Storyboard.TargetName="PART_PlainTextBox" Storyboard.TargetProperty="(Foreground).(Color)"/>
-                                        <ColorAnimation From="Red" To="Transparent" Duration="0:0:0.4" Storyboard.TargetName="PART_PlainTextBox" Storyboard.TargetProperty="(Foreground).(Color)" BeginTime="0:0:5" RepeatBehavior="Forever"/>
+                                        <ColorAnimation From="Red" To="Transparent" Duration="0:0:0.5" Storyboard.TargetName="PART_PlainTextBox" Storyboard.TargetProperty="(Foreground).(Color)" BeginTime="0:0:5" RepeatBehavior="Forever"/>
                                     </Storyboard>
                                 </VisualState>
                             </VisualStateGroup>
