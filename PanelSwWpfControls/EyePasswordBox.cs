@@ -37,6 +37,8 @@ namespace PanelSW.WPF.Controls
             WatermarkPasswordBox = GetTemplateChild("PART_WatermarkPasswordBox") as WatermarkPasswordBox;
             ShowPasswordButton = GetTemplateChild("PART_ShowPasswordButton") as ButtonBase;
             PlainTextBox = GetTemplateChild("PART_PlainTextBox") as TextBox;
+
+            CopyPasswordToBox();
         }
 
         void IDisposable.Dispose()
@@ -93,25 +95,30 @@ namespace PanelSW.WPF.Controls
         private static void OnSecurePasswordChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             EyePasswordBox me = d as EyePasswordBox;
-            if (me.WatermarkPasswordBox == null)
+            me?.CopyPasswordToBox();
+        }
+
+        private void CopyPasswordToBox()
+        {
+            if (WatermarkPasswordBox == null)
             {
                 return;
             }
 
-            if (me.WatermarkPasswordBox.SecurePassword != me.SecurePassword)
+            if (WatermarkPasswordBox.SecurePassword != SecurePassword)
             {
                 IntPtr valuePtr = IntPtr.Zero;
                 try
                 {
-                    valuePtr = Marshal.SecureStringToGlobalAllocUnicode(me.SecurePassword);
-                    me.WatermarkPasswordBox.SecurePassword.Clear();
-                    for (int i = 0; i < me.SecurePassword.Length; ++i)
+                    valuePtr = Marshal.SecureStringToGlobalAllocUnicode(SecurePassword);
+                    WatermarkPasswordBox.SecurePassword.Clear();
+                    for (int i = 0; i < SecurePassword.Length; ++i)
                     {
                         char c = (char)Marshal.ReadInt16(valuePtr, 2 * i);
-                        me.WatermarkPasswordBox.SecurePassword.AppendChar(c);
+                        WatermarkPasswordBox.SecurePassword.AppendChar(c);
                     }
                     // Workaround since WatermarkPasswordBox doesn't automatically update the text.
-                    me.WatermarkPasswordBox.Text = new string(me.WatermarkPasswordBox.PasswordChar, me.SecurePassword.Length);
+                    WatermarkPasswordBox.Text = new string(WatermarkPasswordBox.PasswordChar, SecurePassword.Length);
                 }
                 finally
                 {
