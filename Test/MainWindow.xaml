@@ -11,6 +11,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
             <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
@@ -19,8 +20,8 @@
         <controls:EyePasswordBox Grid.Row="0" Grid.Column="0" SecurePassword="{Binding SecurePassword, UpdateSourceTrigger=PropertyChanged}" 
                                  Watermark="Password here" 
                                  BorderThickness="1" BorderBrush="Gray" TextPadding="16,0,0,0"/>
-        
-        <controls:WaitableButton Grid.Row="1" Grid.Column="0" Click="WaitableButton_Click">
+
+        <controls:WaitableButton Grid.Row="1" Grid.Column="0" Content="Click me" Click="WaitableButton_Click">
             <controls:WaitableButton.Style>
                 <Style TargetType="controls:WaitableButton">
                     <Style.Triggers>
@@ -29,12 +30,41 @@
                             <Setter Property="Template">
                                 <Setter.Value>
                                     <ControlTemplate TargetType="controls:WaitableButton">
-                                        <ProgressBar IsIndeterminate="True"/>
+                                        <ProgressBar IsIndeterminate="True" BorderBrush="Black" BorderThickness="1"/>
                                     </ControlTemplate>
                                 </Setter.Value>
                             </Setter>
                         </Trigger>
                     </Style.Triggers>
+                </Style>
+            </controls:WaitableButton.Style>
+        </controls:WaitableButton>
+
+
+        <controls:WaitableButton Grid.Row="2" Grid.Column="0" Click="WaitableButton_Click" Content="Click me">
+            <controls:WaitableButton.Style>
+                <Style TargetType="controls:WaitableButton">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="controls:WaitableButton">
+                                <Button Content="{TemplateBinding Content}">
+                                    <VisualStateManager.VisualStateGroups>
+                                        <VisualStateGroup Name="ValueStates">
+                                            <VisualState Name="Ready"/>
+                                            <VisualState Name="Waiting">
+                                                <Storyboard>
+                                                    <ColorAnimation From="Red" To="Transparent" Duration="0:0:0.5" Storyboard.TargetProperty="(Foreground).(Color)" RepeatBehavior="Forever"/>
+                                                    <BooleanAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetProperty="(UIElement.IsHitTestVisible)">
+                                                        <DiscreteBooleanKeyFrame Value="False"/>
+                                                    </BooleanAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </VisualState>
+                                        </VisualStateGroup>
+                                    </VisualStateManager.VisualStateGroups>
+                                </Button>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
                 </Style>
             </controls:WaitableButton.Style>
         </controls:WaitableButton>
