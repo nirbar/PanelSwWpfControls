@@ -3,7 +3,7 @@
   <Import Project="$(SolutionDir)TidyBuild.user.props" Condition="Exists('$(SolutionDir)TidyBuild.user.props')"/>
 
   <PropertyGroup>
-    <FullVersion Condition="'$(FullVersion)'==''">1.1.2</FullVersion>
+    <FullVersion Condition="'$(FullVersion)'==''">1.1.3</FullVersion>
     <NugetDir Condition="'$(NugetDir)'==''">$(MSBuildThisFileDirectory)..\..\Tools\</NugetDir>
   </PropertyGroup>
 </Project>

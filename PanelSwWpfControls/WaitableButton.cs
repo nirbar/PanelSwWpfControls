@@ -1,12 +1,31 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 
 namespace PanelSW.WPF.Controls
 {
+    [TemplatePart(Name = "PART_Waiting", Type = typeof(FrameworkElement))]
+    [TemplatePart(Name = "PART_Button", Type = typeof(ButtonBase))]
     [TemplateVisualState(Name = "Waiting", GroupName = "ValueStates")]
     [TemplateVisualState(Name = "Ready", GroupName = "ValueStates")]
     public class WaitableButton : Button
     {
+        static WaitableButton()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(WaitableButton), new FrameworkPropertyMetadata(typeof(WaitableButton)));
+        }
+
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+
+            ButtonPart = GetTemplateChild("PART_Button") as ButtonBase;
+            WaitingPart = GetTemplateChild("PART_Waiting") as FrameworkElement;
+        }
+
+        private ButtonBase ButtonPart { get; set; } = null;
+        private FrameworkElement WaitingPart { get; set; } = null;
+
         #region IsWaiting
 
         public static readonly DependencyProperty IsWaitingProperty = DependencyProperty.Register("IsWaiting", typeof(bool), typeof(WaitableButton), new PropertyMetadata(false, OnIsWaitingChanged));
@@ -15,7 +34,24 @@ namespace PanelSW.WPF.Controls
             WaitableButton me = d as WaitableButton;
             if (me != null)
             {
-                VisualStateManager.GoToState(me, me.IsWaiting ? "Waiting" : "Ready", true);
+                if (me.IsWaiting)
+                {
+                    if ((me.ButtonPart != null) && (me.WaitingPart != null))
+                    {
+                        me.ButtonPart.Visibility = Visibility.Collapsed;
+                        me.WaitingPart.Visibility = Visibility.Visible;
+                    }
+                    VisualStateManager.GoToState(me, "Waiting", true);
+                }
+                else
+                {
+                    if ((me.ButtonPart != null) && (me.WaitingPart != null))
+                    {
+                        me.ButtonPart.Visibility = Visibility.Visible;
+                        me.WaitingPart.Visibility = Visibility.Collapsed;
+                    }
+                    VisualStateManager.GoToState(me, "Ready", true);
+                }
             }
         }
 
