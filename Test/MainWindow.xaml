@@ -8,13 +8,13 @@
         Title="MainWindow" Height="350" Width="525">
 
     <Window.Resources>
-        <Style x:Key="{x:Static controls:ResourceKeys.WaitableButtonProgressBarStyleKey}">
-            <Setter Property="Control.BorderThickness" Value="0"/>
-            <Setter Property="Control.Margin" Value="0,0,0,0"/>
-            <Setter Property="Control.Padding" Value="0,0,0,0"/>
-            <Setter Property="Control.Width" Value="100"/>
-            <Setter Property="Control.Height" Value="5"/>
-        </Style>
+            <Style x:Key="{x:Static controls:ResourceKeys.WaitableButtonProgressBarStyleKey}">
+                <Setter Property="Control.BorderThickness" Value="0"/>
+                <Setter Property="Control.Margin" Value="0,0,0,0"/>
+                <Setter Property="Control.Padding" Value="0,0,0,0"/>
+                <Setter Property="Control.Width" Value="100"/>
+                <Setter Property="Control.Height" Value="5"/>
+            </Style>
     </Window.Resources>    
     
     <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
@@ -28,8 +28,8 @@
         </Grid.ColumnDefinitions>
 
         <controls:EyePasswordBox Grid.Row="0" Grid.Column="0" SecurePassword="{Binding SecurePassword, UpdateSourceTrigger=PropertyChanged}" 
-                                 Watermark="Password here" 
-                                 BorderThickness="1" BorderBrush="Gray" TextPadding="16,0,0,0"/>
+                                 Watermark="Password here"
+                                 BorderThickness="1" BorderBrush="Gray" Padding="16,0,0,0"/>
 
         <controls:WaitableButton Grid.Row="1" Grid.Column="0" Content="Click me" Click="WaitableButton_Click"/>
 
