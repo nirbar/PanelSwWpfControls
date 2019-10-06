@@ -4,19 +4,74 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:controls="clr-namespace:PanelSW.WPF.Controls;assembly=PanelSwWpfControls"
+        xmlns:math="http://hexinnovation.com/math"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
 
     <Window.Resources>
-            <Style x:Key="{x:Static controls:ResourceKeys.WaitableButtonProgressBarStyleKey}">
-                <Setter Property="Control.BorderThickness" Value="0"/>
-                <Setter Property="Control.Margin" Value="0,0,0,0"/>
-                <Setter Property="Control.Padding" Value="0,0,0,0"/>
-                <Setter Property="Control.Width" Value="100"/>
-                <Setter Property="Control.Height" Value="5"/>
-            </Style>
-    </Window.Resources>    
-    
+        <math:MathConverter x:Key="math" />
+        
+        <Style x:Key="{x:Static controls:ResourceKeys.WaitableButtonProgressBarStyleKey}" BasedOn="{StaticResource {x:Static controls:ResourceKeys.WaitableButtonProgressBarStyleKey}}">
+            <Setter Property="Control.Width" Value="80"/>
+            <Setter Property="Control.Height" Value="40"/>
+            <Setter Property="Control.Foreground" Value="Red"/>
+            <Setter Property="ProgressBar.Minimum" Value="0"/>
+            <Setter Property="ProgressBar.Maximum" Value="200"/>
+            <Setter Property="ProgressBar.Value" Value="20"/>
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ProgressBar">
+                        <Grid>
+                            <Ellipse Fill="#FF6DB4EF" />
+                            <Ellipse Stroke="Black" StrokeThickness="2" Fill="Transparent">
+                                <Ellipse.Width>
+                                    <!-- (Width * (Value - Minimum)) / (Maximum - Minimum) -->
+                                    <MultiBinding Converter="{StaticResource math}" ConverterParameter="([0] * ([3] - [1])) / ([2] - [1])">
+                                        <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Width" />
+                                        <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Minimum" />
+                                        <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Maximum" />
+                                        <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Value" />
+                                    </MultiBinding>
+                                </Ellipse.Width>
+                                <Ellipse.Height>
+                                    <!-- (Height * (Value - Minimum)) / (Maximum - Minimum) -->
+                                    <MultiBinding Converter="{StaticResource math}" ConverterParameter="([0] * ([3] - [1])) / ([2] - [1])">
+                                        <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Height" />
+                                        <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Minimum" />
+                                        <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Maximum" />
+                                        <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Value" />
+                                    </MultiBinding>
+                                </Ellipse.Height>
+                            </Ellipse>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsIndeterminate}" Value="True">
+                                <DataTrigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation To="0" Storyboard.TargetProperty="Minimum" Duration="0:0:0" FillBehavior="HoldEnd"/>
+                                            <DoubleAnimation To="100" Storyboard.TargetProperty="Maximum" Duration="0:0:0" FillBehavior="HoldEnd"/>
+                                            <DoubleAnimation From="0" To="100" Storyboard.TargetProperty="Value" Duration="0:0:2" RepeatBehavior="Forever"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </DataTrigger.EnterActions>
+                                <DataTrigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation To="0" Storyboard.TargetProperty="Minimum" Duration="0:0:0" FillBehavior="HoldEnd"/>
+                                            <DoubleAnimation To="100" Storyboard.TargetProperty="Maximum" Duration="0:0:0" FillBehavior="HoldEnd"/>
+                                            <DoubleAnimation To="0" Storyboard.TargetProperty="Value" Duration="0:0:0" FillBehavior="HoldEnd"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </DataTrigger.ExitActions>
+                            </DataTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
     <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
@@ -45,10 +100,7 @@
                                             <VisualState Name="Ready"/>
                                             <VisualState Name="Waiting">
                                                 <Storyboard>
-                                                    <ColorAnimation From="Red" To="Transparent" Duration="0:0:0.5" Storyboard.TargetProperty="(Foreground).(Color)" RepeatBehavior="Forever"/>
-                                                    <BooleanAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetProperty="(UIElement.IsHitTestVisible)">
-                                                        <DiscreteBooleanKeyFrame Value="False"/>
-                                                    </BooleanAnimationUsingKeyFrames>
+                                                    <ColorAnimation To="Transparent" Duration="0:0:0.5" Storyboard.TargetProperty="(Foreground).(Color)" RepeatBehavior="Forever"/>
                                                 </Storyboard>
                                             </VisualState>
                                         </VisualStateGroup>

@@ -55,11 +55,16 @@ namespace Test
         private void WaitableButton_Click(object sender, RoutedEventArgs e)
         {
             WaitableButton btn = sender as WaitableButton;
-            btn.IsWaiting = !btn.IsWaiting;
+            if (btn.IsWaiting)
+            {
+                return;
+            }
+
+            btn.IsWaiting = true;
             Task.Factory.StartNew(() =>
             {
                 Thread.Sleep(5000);
-                Dispatcher.Invoke(() => btn.IsWaiting = !btn.IsWaiting);
+                Dispatcher.Invoke(() => btn.IsWaiting = false);
             });
         }
     }
