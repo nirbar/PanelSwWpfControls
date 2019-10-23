@@ -10,6 +10,12 @@
 
     <Window.Resources>
         <math:MathConverter x:Key="math" />
+
+        <Style x:Key="{x:Static controls:ResourceKeys.WaitableButtonBorderStyleKey}" BasedOn="{StaticResource {x:Static controls:ResourceKeys.WaitableButtonBorderStyleKey}}">
+            <Setter Property="Border.BorderThickness" Value="3"/>
+            <Setter Property="Border.BorderBrush" Value="Red"/>
+            <Setter Property="Border.CornerRadius" Value="10"/>
+        </Style>
         
         <Style x:Key="{x:Static controls:ResourceKeys.WaitableButtonProgressBarStyleKey}" BasedOn="{StaticResource {x:Static controls:ResourceKeys.WaitableButtonProgressBarStyleKey}}">
             <Setter Property="Control.Width" Value="80"/>

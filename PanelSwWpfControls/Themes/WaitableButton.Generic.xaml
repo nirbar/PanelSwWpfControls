@@ -26,11 +26,18 @@
         <Setter Property="Control.FontWeight" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=FontWeight}"/>
     </Style>
 
+    <Style x:Key="{x:Static local:ResourceKeys.WaitableButtonBorderStyleKey}">
+        <Setter Property="Border.BorderThickness" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=BorderThickness}"/>
+        <Setter Property="Border.BorderBrush" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=BorderBrush}"/>
+        <Setter Property="Border.CornerRadius" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CornerRadius}"/>
+        <Setter Property="Control.Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Background}"/>
+    </Style>
+
     <Style TargetType="local:WaitableButton" BasedOn="{StaticResource {x:Type Button}}">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:WaitableButton}">
-                    <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Focusable="False">
+                    <Border Style="{DynamicResource {x:Static local:ResourceKeys.WaitableButtonBorderStyleKey}}" Focusable="False">
 
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup Name="ValueStates">
@@ -48,7 +55,7 @@
                             </Grid.ColumnDefinitions>
 
                             <Button Grid.Row="0" Grid.Column="0" Name="PART_Button" Style="{DynamicResource {x:Static local:ResourceKeys.WaitableButtonButtonStyleKey}}"
-                                    Command="{TemplateBinding Command}"/>
+                                    Command="{TemplateBinding Command}" Content="{TemplateBinding Content}"/>
                             <ProgressBar Grid.Row="0" Grid.Column="0" Name="PART_Waiting" Visibility="Collapsed" Style="{DynamicResource {x:Static local:ResourceKeys.WaitableButtonProgressBarStyleKey}}" IsIndeterminate="True" />
                         </Grid>
                     </Border>
