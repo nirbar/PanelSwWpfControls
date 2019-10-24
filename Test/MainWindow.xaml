@@ -94,29 +94,6 @@
 
         <controls:WaitableButton Grid.Row="1" Grid.Column="0" Content="Click me" Click="WaitableButton_Click"/>
 
-        <controls:WaitableButton Grid.Row="2" Grid.Column="0" Click="WaitableButton_Click" Content="Click me">
-            <controls:WaitableButton.Style>
-                <Style TargetType="controls:WaitableButton">
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="controls:WaitableButton">
-                                <Button Content="{TemplateBinding Content}" Name="PART_Button">
-                                    <VisualStateManager.VisualStateGroups>
-                                        <VisualStateGroup Name="ValueStates">
-                                            <VisualState Name="Ready"/>
-                                            <VisualState Name="Waiting">
-                                                <Storyboard>
-                                                    <ColorAnimation To="Transparent" Duration="0:0:0.5" Storyboard.TargetProperty="(Foreground).(Color)" RepeatBehavior="Forever"/>
-                                                </Storyboard>
-                                            </VisualState>
-                                        </VisualStateGroup>
-                                    </VisualStateManager.VisualStateGroups>
-                                </Button>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </controls:WaitableButton.Style>
-        </controls:WaitableButton>
+        <controls:WaitableButton Grid.Row="2" Grid.Column="0" Click="WaitableButton_Click" Content="Click me" Style="{DynamicResource {x:Static controls:ResourceKeys.WaitableButtonBlinkingStyleKey}}"/>
     </Grid>
 </Window>
