@@ -1,26 +1,8 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:xceed="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
                     xmlns:local="clr-namespace:PanelSW.WPF.Controls">
 
-    <Style x:Name="EyePasswordBoxWatermarkPasswordBoxStyle" x:Key="{x:Static local:ResourceKeys.EyePasswordBoxWatermarkPasswordBoxStyleKey}" x:Shared="false">
-        <Setter Property="Control.HorizontalAlignment" Value="Stretch"/>
-        <Setter Property="Control.VerticalAlignment" Value="Center"/>
-        <Setter Property="Control.HorizontalContentAlignment" Value="Left"/>
-        <Setter Property="Control.VerticalContentAlignment" Value="Center"/>
-        <Setter Property="Control.BorderThickness" Value="0"/>
-        <Setter Property="Control.Padding" Value="0,0,0,0"/>
-        <Setter Property="xceed:WatermarkPasswordBox.Watermark" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Watermark}"/>
-        <Setter Property="Control.Foreground" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Foreground}"/>
-        <Setter Property="Control.Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Background}"/>
-        <Setter Property="Control.FontFamily" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=FontFamily}"/>
-        <Setter Property="Control.FontSize" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=FontSize}"/>
-        <Setter Property="Control.FontStretch" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=FontStretch}"/>
-        <Setter Property="Control.FontStyle" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=FontStyle}"/>
-        <Setter Property="Control.FontWeight" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=FontWeight}"/>
-    </Style>
-
-    <Style x:Key="{x:Static local:ResourceKeys.EyePasswordBoxTextBoxStyleKey}" x:Shared="false">
+    <Style x:Key="{x:Static local:ResourceKeys.TextBoxWithButtonTextBoxStyleKey}" x:Shared="false">
         <Setter Property="Control.HorizontalAlignment" Value="Stretch"/>
         <Setter Property="Control.VerticalAlignment" Value="Center"/>
         <Setter Property="Control.HorizontalContentAlignment" Value="Left"/>
@@ -34,15 +16,16 @@
         <Setter Property="Control.FontStretch" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=FontStretch}"/>
         <Setter Property="Control.FontStyle" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=FontStyle}"/>
         <Setter Property="Control.FontWeight" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=FontWeight}"/>
+        <Setter Property="TextBox.Text" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Text}"/>
     </Style>
 
-    <Style x:Key="{x:Static local:ResourceKeys.EyePasswordBoxButtonStyleKey}" x:Shared="false">
+    <Style x:Key="{x:Static local:ResourceKeys.TextBoxWithButtonButtonStyleKey}" x:Shared="false">
         <Setter Property="Control.HorizontalAlignment" Value="Stretch"/>
         <Setter Property="Control.VerticalAlignment" Value="Stretch"/>
         <Setter Property="Control.VerticalContentAlignment" Value="Center"/>
         <Setter Property="Control.HorizontalContentAlignment" Value="Center"/>
         <Setter Property="Control.BorderThickness" Value="0"/>
-        <Setter Property="Control.Margin" Value="0,0,0,0"/>
+        <Setter Property="Control.Margin" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=BorderThickness}"/>
         <Setter Property="Control.Padding" Value="0,0,0,0"/>
         <Setter Property="Control.Foreground" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Foreground}"/>
         <Setter Property="Control.Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Background}"/>
@@ -51,23 +34,16 @@
         <Setter Property="Control.FontStretch" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=FontStretch}"/>
         <Setter Property="Control.FontStyle" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=FontStyle}"/>
         <Setter Property="Control.FontWeight" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=FontWeight}"/>
+        <Setter Property="Button.Command" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Command}"/>
+        <Setter Property="Button.CommandParameter" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CommandParameter}"/>
         <Setter Property="Button.Content">
             <Setter.Value>
-                <Image Source="pack://application:,,,/PanelSwWpfControls;component/Resources/baseline_visibility_black_24dp.png" Width="24" Height="24"/>
+                <Image Source="pack://application:,,,/PanelSwWpfControls;component/Resources/baseline_folder_open_black_24dp.png" Width="24" Height="24"/>
             </Setter.Value>
         </Setter>
-        <Style.Triggers>
-            <Trigger Property="Button.IsPressed" Value="True">
-                <Setter Property="Button.Content">
-                    <Setter.Value>
-                        <Image Source="pack://application:,,,/PanelSwWpfControls;component/Resources/baseline_visibility_off_black_24dp.png" Width="24" Height="24"/>
-                    </Setter.Value>
-                </Setter>
-            </Trigger>
-        </Style.Triggers>
     </Style>
 
-    <Style x:Key="{x:Static local:ResourceKeys.EyePasswordBoxBorderStyleKey}" x:Shared="false">
+    <Style x:Key="{x:Static local:ResourceKeys.TextBoxWithButtonBorderStyleKey}" x:Shared="false">
         <Setter Property="Border.BorderThickness" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=BorderThickness}"/>
         <Setter Property="Border.BorderBrush" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=BorderBrush}"/>
         <Setter Property="Border.CornerRadius" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CornerRadius}"/>
@@ -75,16 +51,15 @@
         <Setter Property="Control.Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Background}"/>
     </Style>
 
-    <Style TargetType="{x:Type local:EyePasswordBox}" x:Shared="false">
+    <Style TargetType="{x:Type local:TextBoxWithButton}" x:Shared="false">
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type local:EyePasswordBox}">
-                    <Border Focusable="False" Style="{DynamicResource {x:Static local:ResourceKeys.EyePasswordBoxBorderStyleKey}}">
+                <ControlTemplate TargetType="{x:Type local:TextBoxWithButton}">
+                    <Border Focusable="False" Style="{DynamicResource {x:Static local:ResourceKeys.TextBoxWithButtonBorderStyleKey}}">
 
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup Name="ValueStates">
-                                <VisualState Name="HiddenPassword"/>
-                                <VisualState Name="PlainPassword"/>
+                                <VisualState Name="ButtonPressed"/>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
 
@@ -96,14 +71,11 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="35"/>
                             </Grid.ColumnDefinitions>
-                            <xceed:WatermarkPasswordBox Grid.Row="0" Grid.Column="0" Name="PART_WatermarkPasswordBox"
-                                                        Style="{DynamicResource {x:Static local:ResourceKeys.EyePasswordBoxWatermarkPasswordBoxStyleKey}}"/>
+                            <TextBox Grid.Row="0" Grid.Column="0" Name="PART_TextBox"
+                                     Style="{DynamicResource {x:Static local:ResourceKeys.TextBoxWithButtonTextBoxStyleKey}}"/>
 
-                            <TextBox Grid.Row="0" Grid.Column="0" IsReadOnly="True" Name="PART_PlainTextBox" Visibility="Collapsed"
-                                     Style="{DynamicResource {x:Static local:ResourceKeys.EyePasswordBoxTextBoxStyleKey}}"/>
-
-                            <Button Grid.Row="0" Grid.Column="1" Name="PART_ShowPasswordButton"
-                                    Style="{DynamicResource {x:Static local:ResourceKeys.EyePasswordBoxButtonStyleKey}}"/>
+                            <Button Grid.Row="0" Grid.Column="1" Name="PART_Button"
+                                    Style="{DynamicResource {x:Static local:ResourceKeys.TextBoxWithButtonButtonStyleKey}}"/>
                         </Grid>
                     </Border>
                 </ControlTemplate>

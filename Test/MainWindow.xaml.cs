@@ -1,10 +1,12 @@
-﻿using PanelSW.WPF.Controls;
+﻿using Microsoft.Win32;
+using PanelSW.WPF.Controls;
 using System;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 
 namespace Test
 {
@@ -66,6 +68,21 @@ namespace Test
                 Thread.Sleep(5000);
                 Dispatcher.Invoke(() => btn.IsWaiting = false);
             });
+        }
+
+        private void OpenCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            TextBoxWithButton tb = e.Source as TextBoxWithButton;
+            if (tb != null)
+            {
+                OpenFileDialog ofd = new OpenFileDialog();
+                ofd.FileName = tb.Text;
+                ofd.Filter = e.Parameter?.ToString();
+                if (ofd.ShowDialog() == true)
+                {
+                    tb.Text = ofd.FileName;
+                }
+            }
         }
     }
 }

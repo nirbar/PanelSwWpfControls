@@ -13,5 +13,9 @@ namespace PanelSW.WPF.Controls
         public static readonly ComponentResourceKey EyePasswordBoxTextBoxStyleKey = new ComponentResourceKey(typeof(ResourceKeys), "EyePasswordBoxTextBoxStyle");
         public static readonly ComponentResourceKey EyePasswordBoxButtonStyleKey = new ComponentResourceKey(typeof(ResourceKeys), "EyePasswordBoxButtonStyle");
         public static readonly ComponentResourceKey EyePasswordBoxBorderStyleKey = new ComponentResourceKey(typeof(ResourceKeys), "EyePasswordBoxBorderStyle");
+
+        public static readonly ComponentResourceKey TextBoxWithButtonTextBoxStyleKey = new ComponentResourceKey(typeof(ResourceKeys), "TextBoxWithButtonTextBoxStyle");
+        public static readonly ComponentResourceKey TextBoxWithButtonButtonStyleKey = new ComponentResourceKey(typeof(ResourceKeys), "TextBoxWithButtonButtonStyle");
+        public static readonly ComponentResourceKey TextBoxWithButtonBorderStyleKey = new ComponentResourceKey(typeof(ResourceKeys), "TextBoxWithButtonBorderStyle");
     }
 }
