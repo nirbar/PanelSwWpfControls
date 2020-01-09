@@ -16,7 +16,6 @@
         <Setter Property="Control.FontStretch" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=FontStretch}"/>
         <Setter Property="Control.FontStyle" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=FontStyle}"/>
         <Setter Property="Control.FontWeight" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=FontWeight}"/>
-        <Setter Property="TextBox.Text" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Text}"/>
     </Style>
 
     <Style x:Key="{x:Static local:ResourceKeys.TextBoxWithButtonButtonStyleKey}" x:Shared="false">
@@ -71,7 +70,7 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="35"/>
                             </Grid.ColumnDefinitions>
-                            <TextBox Grid.Row="0" Grid.Column="0" Name="PART_TextBox"
+                            <TextBox Grid.Row="0" Grid.Column="0" Name="PART_TextBox" Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Text}"
                                      Style="{DynamicResource {x:Static local:ResourceKeys.TextBoxWithButtonTextBoxStyleKey}}"/>
 
                             <Button Grid.Row="0" Grid.Column="1" Name="PART_Button"

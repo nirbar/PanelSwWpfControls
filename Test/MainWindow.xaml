@@ -100,7 +100,7 @@
 
         <controls:WaitableButton Grid.Row="2" Grid.Column="0" Click="WaitableButton_Click" Content="Click me" Style="{DynamicResource {x:Static controls:ResourceKeys.WaitableButtonBlinkingStyleKey}}"/>
 
-        <controls:TextBoxWithButton Grid.Row="3" Grid.Column="0" Text="Select file" BorderBrush="Black" BorderThickness="1" Foreground="Black" Background="White" Padding="16,0,0,0"
+        <controls:TextBoxWithButton Grid.Row="3" Grid.Column="0" Text="{Binding FilePath, UpdateSourceTrigger=PropertyChanged}" BorderBrush="Black" BorderThickness="1" Foreground="Black" Background="White" Padding="16,0,0,0"
                                     Command="ApplicationCommands.Open" CommandParameter="Text file (*.txt)|*.txt"/>
     </Grid>
 </Window>

@@ -66,9 +66,9 @@ namespace PanelSW.WPF.Controls
 
         private TextBox TextBox { get; set; } = null;
 
-        #region ButtonPressed
+        #region Text
 
-        public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(string), typeof(TextBoxWithButton), new PropertyMetadata("", new PropertyChangedCallback(OnTextChanged)));
+        public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(string), typeof(TextBoxWithButton), new FrameworkPropertyMetadata("", FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnTextChanged));
         private static void OnTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             TextBoxWithButton me = d as TextBoxWithButton;

@@ -70,6 +70,9 @@ namespace Test
             });
         }
 
+
+        public string FilePath { get; set; } = "Nir";
+
         private void OpenCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             TextBoxWithButton tb = e.Source as TextBoxWithButton;
