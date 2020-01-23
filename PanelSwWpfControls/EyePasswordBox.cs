@@ -9,9 +9,6 @@ using Xceed.Wpf.Toolkit;
 
 namespace PanelSW.WPF.Controls
 {
-    /// <summary>
-    /// Interaction logic for EyePasswordBox.xaml
-    /// </summary>
     [TemplatePart(Name = "PART_WatermarkPasswordBox", Type = typeof(WatermarkPasswordBox))]
     [TemplatePart(Name = "PART_ShowPasswordButton", Type = typeof(ButtonBase))]
     [TemplatePart(Name = "PART_PlainTextBox", Type = typeof(TextBox))]

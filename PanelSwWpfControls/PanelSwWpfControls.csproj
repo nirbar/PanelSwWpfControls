@@ -81,6 +81,11 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\IsInCollectionConverter.cs" />
+    <Compile Include="Converters\IsInCollectionToVisibilityConverter.cs" />
+    <Compile Include="Converters\EqualityConverter.cs" />
+    <Compile Include="Converters\InverseBooleanConverter.cs" />
+    <Compile Include="Converters\RegexConverter.cs" />
     <Compile Include="TextBoxWithButton.cs" />
     <Compile Include="EyePasswordBox.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
