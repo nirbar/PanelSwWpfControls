@@ -6,13 +6,16 @@ using System.Windows.Input;
 namespace PanelSW.WPF.Controls
 {
     /// <summary>
-    /// Interaction logic for TextBoxWithButton.xaml
+    /// TextBox control with a button on the right hand side
     /// </summary>
     [TemplatePart(Name = "PART_Button", Type = typeof(ButtonBase))]
     [TemplatePart(Name = "PART_TextBox", Type = typeof(TextBox))]
     [TemplateVisualState(Name = "ButtonPressed", GroupName = "ValueStates")]
     public partial class TextBoxWithButton : Control
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public TextBoxWithButton()
         {
         }
@@ -22,6 +25,9 @@ namespace PanelSW.WPF.Controls
             DefaultStyleKeyProperty.OverrideMetadata(typeof(TextBoxWithButton), new FrameworkPropertyMetadata(typeof(TextBoxWithButton)));
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
@@ -68,6 +74,9 @@ namespace PanelSW.WPF.Controls
 
         #region Text
 
+        /// <summary>
+        /// DependencyProperty for Text
+        /// </summary>
         public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(string), typeof(TextBoxWithButton), new FrameworkPropertyMetadata("", FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnTextChanged));
         private static void OnTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -75,6 +84,9 @@ namespace PanelSW.WPF.Controls
             me.RaiseEvent(new RoutedEventArgs(TextChangedEvent));
         }
 
+        /// <summary>
+        /// Text
+        /// </summary>
         public string Text
         {
             get
@@ -87,7 +99,14 @@ namespace PanelSW.WPF.Controls
             }
         }
 
+        /// <summary>
+        /// RoutedEvent for TextChanged
+        /// </summary>
         public static readonly RoutedEvent TextChangedEvent = EventManager.RegisterRoutedEvent("TextChanged", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TextBoxWithButton));
+
+        /// <summary>
+        /// Event triggered when text changes
+        /// </summary>
         public event RoutedEventHandler TextChanged
         {
             add { AddHandler(TextChangedEvent, value); }
@@ -98,6 +117,9 @@ namespace PanelSW.WPF.Controls
 
         #region ButtonPressed
 
+        /// <summary>
+        /// DependencyProperty for ButtonPressed
+        /// </summary>
         public static readonly DependencyProperty ButtonPressedProperty = DependencyProperty.Register("ButtonPressed", typeof(bool), typeof(TextBoxWithButton), new PropertyMetadata(false, new PropertyChangedCallback(OnButtonPressedChanged)));
         private static void OnButtonPressedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -105,6 +127,9 @@ namespace PanelSW.WPF.Controls
             me.RaiseEvent(new RoutedEventArgs(ButtonPressedChangedEvent));
         }
 
+        /// <summary>
+        /// Gets whether or not button is pressed
+        /// </summary>
         public bool ButtonPressed
         {
             get
@@ -117,7 +142,14 @@ namespace PanelSW.WPF.Controls
             }
         }
 
+        /// <summary>
+        /// RoutedEvent for ButtonPressedChanged
+        /// </summary>
         public static readonly RoutedEvent ButtonPressedChangedEvent = EventManager.RegisterRoutedEvent("ButtonPressed", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TextBoxWithButton));
+
+        /// <summary>
+        /// Event triggered when ButtonPressed changes. Equivalent to button click events
+        /// </summary>
         public event RoutedEventHandler ButtonPressedChanged
         {
             add { AddHandler(ButtonPressedChangedEvent, value); }
@@ -128,8 +160,14 @@ namespace PanelSW.WPF.Controls
 
         #region Command
 
+        /// <summary>
+        /// DependencyProperty for Command
+        /// </summary>
         public static readonly DependencyProperty CommandProperty = DependencyProperty.Register("Command", typeof(ICommand), typeof(TextBoxWithButton), new PropertyMetadata(null));
 
+        /// <summary>
+        /// Button Command
+        /// </summary>
         public ICommand Command
         {
             get
@@ -146,8 +184,14 @@ namespace PanelSW.WPF.Controls
 
         #region CommandParameter
 
+        /// <summary>
+        /// DependencyProperty for CommandParameter
+        /// </summary>
         public static readonly DependencyProperty CommandParameterProperty = DependencyProperty.Register("CommandParameter", typeof(object), typeof(TextBoxWithButton), new PropertyMetadata(null));
 
+        /// <summary>
+        /// Button CommandParameter
+        /// </summary>
         public object CommandParameter
         {
             get

@@ -5,6 +5,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:controls="clr-namespace:PanelSW.WPF.Controls;assembly=PanelSwWpfControls"
+        xmlns:converters="clr-namespace:PanelSW.WPF.Controls.Converters;assembly=PanelSwWpfControls"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:wpf="clr-namespace:System.Windows;assembly=PresentationCore"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
 
@@ -13,6 +16,14 @@
     </Window.CommandBindings>
     <Window.Resources>
         <math:MathConverter x:Key="math" />
+
+        <sys:String x:Key="ClickMe">Click me</sys:String>
+        <wpf:Visibility x:Key="Visible">Visible</wpf:Visibility>
+        <wpf:Visibility x:Key="Collapsed">Collapsed</wpf:Visibility>
+        <wpf:Visibility x:Key="Hidden">Hidden</wpf:Visibility>
+        <x:Array Type="sys:Boolean" x:Key="CollectionValues">
+            <sys:Boolean>False</sys:Boolean>
+        </x:Array>
 
         <Style x:Key="{x:Static controls:ResourceKeys.WaitableButtonBorderStyleKey}" BasedOn="{StaticResource {x:Static controls:ResourceKeys.WaitableButtonBorderStyleKey}}">
             <Setter Property="Border.BorderThickness" Value="3"/>
@@ -81,26 +92,28 @@
         </Style>
     </Window.Resources>
 
-    <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="50"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
-        </Grid.ColumnDefinitions>
+    <UniformGrid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Columns="1">
 
-        <controls:EyePasswordBox Grid.Row="0" Grid.Column="0" SecurePassword="{Binding SecurePassword, UpdateSourceTrigger=PropertyChanged}" 
+        <controls:EyePasswordBox SecurePassword="{Binding SecurePassword, UpdateSourceTrigger=PropertyChanged}" 
                                  Watermark="Password here"
                                  BorderThickness="1" BorderBrush="Gray" Padding="16,0,0,0"/>
 
-        <controls:WaitableButton Grid.Row="1" Grid.Column="0" Content="Click me" Click="WaitableButton_Click"/>
+        <controls:WaitableButton Content="{Binding Source={StaticResource ClickMe}, Converter={converters:RegexConverter RegexExpression='(\\w+) (\\w+)', Replacement='$1 $2 ?'}}"
+                                 Click="WaitableButton_Click"/>
 
-        <controls:WaitableButton Grid.Row="2" Grid.Column="0" Click="WaitableButton_Click" Content="Click me" Style="{DynamicResource {x:Static controls:ResourceKeys.WaitableButtonBlinkingStyleKey}}"/>
+        <controls:WaitableButton Content="{Binding Source={StaticResource ClickMe}, Converter={converters:RegexConverter RegexExpression='(\\w+) (\\w+)', Replacement='$1 $2 !!!'}}"
+                                 Style="{DynamicResource {x:Static controls:ResourceKeys.WaitableButtonBlinkingStyleKey}}"/>
 
-        <controls:TextBoxWithButton Grid.Row="3" Grid.Column="0" Text="{Binding FilePath, UpdateSourceTrigger=PropertyChanged}" BorderBrush="Black" BorderThickness="1" Foreground="Black" Background="White" Padding="16,0,0,0"
+        <controls:TextBoxWithButton Text="{Binding FilePath, UpdateSourceTrigger=PropertyChanged}" BorderBrush="Black" BorderThickness="1" Foreground="Black" Background="White" Padding="16,0,0,0"
                                     Command="ApplicationCommands.Open" CommandParameter="Text file (*.txt)|*.txt"/>
-    </Grid>
+
+
+        <CheckBox x:Name="cb1_" Content="Check"/>
+        <CheckBox Content="Visible if unchecked" IsEnabled="False"
+                  Visibility="{Binding ElementName=cb1_, Path=IsChecked, Converter={converters:IsInCollectionConverter EqualValue={StaticResource Visible}, InequalValue={StaticResource Hidden}, Collection={StaticResource CollectionValues}}}"
+                  />
+        <CheckBox Content="Visible if checked" IsEnabled="False"
+                  Visibility="{Binding ElementName=cb1_, Path=IsChecked, Converter={converters:EqualityConverter EqualValue={StaticResource Hidden}, InequalValue={StaticResource Visible}, Collection={StaticResource CollectionValues}}}"
+                  />
+    </UniformGrid>
 </Window>

@@ -16,6 +16,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <TargetFrameworkProfile />
+    <DocumentationFile>..\build\bin\$(Configuration)\PanelSwWpfControls\PanelSwWpfControls.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -81,6 +82,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\IsInCollectionConverter.cs" />
+    <Compile Include="Converters\EqualityConverter.cs" />
+    <Compile Include="Converters\InverseBooleanConverter.cs" />
+    <Compile Include="Converters\RegexConverter.cs" />
     <Compile Include="TextBoxWithButton.cs" />
     <Compile Include="EyePasswordBox.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -105,6 +110,7 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="PanelSwWpfControls.nuspec" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
