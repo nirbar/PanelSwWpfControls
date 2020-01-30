@@ -9,6 +9,9 @@ using Xceed.Wpf.Toolkit;
 
 namespace PanelSW.WPF.Controls
 {
+    /// <summary>
+    /// Password control with a button that shows plain password when pressed.
+    /// </summary>
     [TemplatePart(Name = "PART_WatermarkPasswordBox", Type = typeof(WatermarkPasswordBox))]
     [TemplatePart(Name = "PART_ShowPasswordButton", Type = typeof(ButtonBase))]
     [TemplatePart(Name = "PART_PlainTextBox", Type = typeof(TextBox))]
@@ -16,6 +19,9 @@ namespace PanelSW.WPF.Controls
     [TemplateVisualState(Name = "PlainPassword", GroupName = "ValueStates")]
     public partial class EyePasswordBox : Control, IDisposable
     {
+        /// <summary>
+        /// C'tor
+        /// </summary>
         public EyePasswordBox()
         {
             Focusable = false;
@@ -26,6 +32,9 @@ namespace PanelSW.WPF.Controls
             DefaultStyleKeyProperty.OverrideMetadata(typeof(EyePasswordBox), new FrameworkPropertyMetadata(typeof(EyePasswordBox)));
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
@@ -87,6 +96,9 @@ namespace PanelSW.WPF.Controls
 
         #region SecurePassword
 
+        /// <summary>
+        /// DependencyProperty for SecurePassword
+        /// </summary>
         public static readonly DependencyProperty SecurePasswordProperty = DependencyProperty.Register("SecurePassword", typeof(SecureString), typeof(EyePasswordBox), new FrameworkPropertyMetadata(new SecureString(), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnSecurePasswordChanged));
         private static void OnSecurePasswordChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -168,6 +180,9 @@ namespace PanelSW.WPF.Controls
             });
         }
 
+        /// <summary>
+        /// Bindable SecureString
+        /// </summary>
         public SecureString SecurePassword
         {
             get
@@ -184,6 +199,9 @@ namespace PanelSW.WPF.Controls
 
         #region IsShowingPlainPassword
 
+        /// <summary>
+        /// DependencyProperty for IsShowingPlainPassword
+        /// </summary>
         public static readonly DependencyProperty IsShowingPlainPasswordProperty = DependencyProperty.Register("IsShowingPlainPassword", typeof(bool), typeof(EyePasswordBox), new PropertyMetadata(false, new PropertyChangedCallback(OnIsShowingPlainPasswordChanged)));
         private static void OnIsShowingPlainPasswordChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -191,6 +209,9 @@ namespace PanelSW.WPF.Controls
             me.RaiseEvent(new RoutedEventArgs(IsShowingPlainPasswordChangedEvent));
         }
 
+        /// <summary>
+        /// Gets whether or not passord is currently shown in plain
+        /// </summary>
         public bool IsShowingPlainPassword
         {
             get
@@ -203,7 +224,14 @@ namespace PanelSW.WPF.Controls
             }
         }
 
+        /// <summary>
+        /// RoutedEvent for IsShowingPlainPassword
+        /// </summary>
         public static readonly RoutedEvent IsShowingPlainPasswordChangedEvent = EventManager.RegisterRoutedEvent("IsShowingPlainPassword", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(EyePasswordBox));
+
+        /// <summary>
+        /// Event triggered when IsShowingPlainPassword changes
+        /// </summary>
         public event RoutedEventHandler IsShowingPlainPasswordChanged
         {
             add { AddHandler(IsShowingPlainPasswordChangedEvent, value); }
@@ -214,7 +242,14 @@ namespace PanelSW.WPF.Controls
 
         #region Watermark
 
+        /// <summary>
+        /// DependencyProperty for Watermark
+        /// </summary>
         public static readonly DependencyProperty WatermarkProperty = DependencyProperty.Register("Watermark", typeof(string), typeof(EyePasswordBox), new PropertyMetadata(""));
+
+        /// <summary>
+        /// Watermark to show when password is empty
+        /// </summary>
         public string Watermark
         {
             get

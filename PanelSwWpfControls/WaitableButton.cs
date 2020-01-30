@@ -4,6 +4,9 @@ using System.Windows.Controls.Primitives;
 
 namespace PanelSW.WPF.Controls
 {
+    /// <summary>
+    /// Button with a visual state to indicate length operations
+    /// </summary>
     [TemplatePart(Name = "PART_Waiting", Type = typeof(FrameworkElement))]
     [TemplatePart(Name = "PART_Button", Type = typeof(ButtonBase))]
     [TemplateVisualState(Name = "Waiting", GroupName = "ValueStates")]
@@ -15,6 +18,9 @@ namespace PanelSW.WPF.Controls
             DefaultStyleKeyProperty.OverrideMetadata(typeof(WaitableButton), new FrameworkPropertyMetadata(typeof(WaitableButton)));
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
@@ -28,6 +34,9 @@ namespace PanelSW.WPF.Controls
 
         #region IsWaiting
 
+        /// <summary>
+        /// DependencyProperty for IsWaiting
+        /// </summary>
         public static readonly DependencyProperty IsWaitingProperty = DependencyProperty.Register("IsWaiting", typeof(bool), typeof(WaitableButton), new PropertyMetadata(false, OnIsWaitingChanged));
         private static void OnIsWaitingChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -55,6 +64,9 @@ namespace PanelSW.WPF.Controls
             }
         }
 
+        /// <summary>
+        /// Gets or set value to indicate length operation is in process
+        /// </summary>
         public bool IsWaiting
         {
             get
@@ -67,7 +79,14 @@ namespace PanelSW.WPF.Controls
             }
         }
 
+        /// <summary>
+        /// RoutedEvent for IsWaitingChanged
+        /// </summary>
         public static readonly RoutedEvent IsWaitingChangedEvent = EventManager.RegisterRoutedEvent("IsWaiting", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(WaitableButton));
+
+        /// <summary>
+        /// Event triggered on changes to IsWaiting
+        /// </summary>
         public event RoutedEventHandler IsWaitingChanged
         {
             add { AddHandler(IsWaitingChangedEvent, value); }
