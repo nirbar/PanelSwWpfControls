@@ -118,8 +118,13 @@ namespace PanelSW.WPF.Controls
                 IntPtr valuePtr = IntPtr.Zero;
                 try
                 {
-                    valuePtr = Marshal.SecureStringToGlobalAllocUnicode(SecurePassword);
                     WatermarkPasswordBox.SecurePassword.Clear();
+                    if (SecurePassword == null)
+                    {
+                        return;
+                    }
+
+                    valuePtr = Marshal.SecureStringToGlobalAllocUnicode(SecurePassword);
                     for (int i = 0; i < SecurePassword.Length; ++i)
                     {
                         char c = (char)Marshal.ReadInt16(valuePtr, 2 * i);
