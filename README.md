@@ -10,3 +10,7 @@
 - *InverseBooleanConverter*: Inverse boolean
 - *IsInCollectionConverter*: Compare value to a supplied object collection and to ConverterParameter. Any of the objects is expected to compare equal
 - *RegexConverter*: Apply regular expression on value
+
+# WPF Commands
+- *BrowseFileCommand*: Open an OpenFileDialog
+- *BrowseFolderCommand* Open a FolderBrowserDialog
