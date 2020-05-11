@@ -5,6 +5,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:controls="clr-namespace:PanelSW.WPF.Controls;assembly=PanelSwWpfControls"
+        xmlns:commands="clr-namespace:PanelSW.WPF.Controls.Commands;assembly=PanelSwWpfControls"
         xmlns:converters="clr-namespace:PanelSW.WPF.Controls.Converters;assembly=PanelSwWpfControls"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:wpf="clr-namespace:System.Windows;assembly=PresentationCore"
@@ -106,6 +107,8 @@
 
         <controls:TextBoxWithButton Text="{Binding FilePath, UpdateSourceTrigger=PropertyChanged}" BorderBrush="Black" BorderThickness="1" Foreground="Black" Background="White" Padding="16,0,0,0"
                                     Command="ApplicationCommands.Open" CommandParameter="Text file (*.txt)|*.txt"/>
+        <controls:TextBoxWithButton Text="{Binding FilePath, UpdateSourceTrigger=PropertyChanged}" BorderBrush="Black" BorderThickness="1" Foreground="Black" Background="White" Padding="16,0,0,0"
+                                    Command="{commands:BrowseFolderCommand Description=Hi, ShowNewFolderButton=False, Folder={Binding FolderPath}}"/>
 
 
         <CheckBox x:Name="cb1_" Content="Check"/>

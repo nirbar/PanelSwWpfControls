@@ -71,7 +71,8 @@ namespace Test
         }
 
 
-        public string FilePath { get; set; } = "Nir";
+        public string FilePath { get; set; } = "Some File";
+        public string Folder { get; set; } = "C:\\Some Folder";
 
         private void OpenCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {

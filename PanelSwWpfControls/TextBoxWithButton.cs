@@ -163,7 +163,15 @@ namespace PanelSW.WPF.Controls
         /// <summary>
         /// DependencyProperty for Command
         /// </summary>
-        public static readonly DependencyProperty CommandProperty = DependencyProperty.Register("Command", typeof(ICommand), typeof(TextBoxWithButton), new PropertyMetadata(null));
+        public static readonly DependencyProperty CommandProperty = DependencyProperty.Register("Command", typeof(ICommand), typeof(TextBoxWithButton), new PropertyMetadata(null, new PropertyChangedCallback(OnCommandChanged)));
+        private static void OnCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            TextBoxWithButton me = d as TextBoxWithButton;
+            if (me.button_ != null)
+            {
+                me.button_.Command = me.Command;
+            }
+        }
 
         /// <summary>
         /// Button Command
