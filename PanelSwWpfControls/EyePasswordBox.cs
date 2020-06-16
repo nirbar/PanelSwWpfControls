@@ -176,7 +176,7 @@ namespace PanelSW.WPF.Controls
 
         private void PasswordBox__PasswordChanged(object sender, RoutedEventArgs e)
         {
-            Dispatcher.Invoke((Action)delegate ()
+            Dispatcher.BeginInvoke((Action)delegate ()
             {
                 if (WatermarkPasswordBox.SecurePassword != SecurePassword)
                 {
