@@ -12,20 +12,22 @@ namespace PanelSW.WPF.Controls.Converters
     [ValueConversion(typeof(string), typeof(string))]
     public class RegexConverter : MarkupExtension, IValueConverter
     {
+        private Regex regex_ = null;
         /// <summary>
         /// Regex expression to apply
         /// </summary>
-        public string RegexExpression { get; set; }
+        public string RegexExpression { get => regex_?.ToString(); set => regex_ = new Regex(value, RegexOptions.Compiled); }
 
         /// <summary>
         /// Regex replacement on all matches
         /// </summary>
         public string Replacement { get; set; }
-        
+
+        private Regex backRegex_ = null;
         /// <summary>
         /// Regex expression to apply when converting back
         /// </summary>
-        public string ConvertBackRegexExpression { get; set; }
+        public string ConvertBackRegexExpression { get => backRegex_?.ToString(); set => backRegex_ = new Regex(value, RegexOptions.Compiled); }
 
         /// <summary>
         /// Regex replacement on all matches when converting back
@@ -42,7 +44,7 @@ namespace PanelSW.WPF.Controls.Converters
         /// <returns></returns>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return Replace(value?.ToString(), RegexExpression, Replacement);
+            return Replace(value?.ToString(), regex_, Replacement);
         }
 
         /// <summary>
@@ -55,17 +57,17 @@ namespace PanelSW.WPF.Controls.Converters
         /// <returns></returns>
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return Replace(value?.ToString(), ConvertBackRegexExpression, ConvertBackReplacement);
+            return Replace(value?.ToString(), backRegex_, ConvertBackReplacement);
         }
 
-        private object Replace(string input, string regex, string replacement)
+        private object Replace(string input, Regex regex, string replacement)
         {
-            if (string.IsNullOrEmpty(input) || string.IsNullOrEmpty(regex))
+            if ((input == null) || (regex == null))
             {
                 return input;
             }
 
-            input = Regex.Replace(input, regex, replacement);
+            input = regex.Replace(input, replacement);
             return input;
         }
 
