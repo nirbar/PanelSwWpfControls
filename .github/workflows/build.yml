@@ -1,0 +1,46 @@
+name: Build
+on:
+  workflow_dispatch:
+    inputs:
+      publish_nuget:
+        description: 'Publish nuget package?'
+        required: true
+        default: false
+        type: boolean
+
+jobs:
+  Build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3.3.0
+        with:
+          submodules: 'true'
+      - uses: microsoft/setup-msbuild@v1
+
+      - name: Resolve build version
+        run: |
+          $xmlDoc = New-Object System.Xml.XmlDocument
+          $file = [System.IO.Path]::Combine($env:GITHUB_WORKSPACE, "TidyBuild.custom.props")
+          [xml]$xmlDoc = Get-Content $file
+          $node = $xmlDoc.SelectSingleNode('//*[local-name(.)="FullVersion"]')
+          Add-Content -Path $env:GITHUB_ENV -Value ("FULL_VERSION=" + $node.InnerText + ".${{ github.run_number }}")
+
+      - name: Build
+        run: |
+          dotnet build -p:TargetFramework=net6.0-windows -restore -p:Configuration=Release -p:FullVersion=${{ env.FULL_VERSION }}
+          dotnet build -p:TargetFramework=net40 -restore -p:Configuration=Release -p:FullVersion=${{ env.FULL_VERSION }}
+
+      - uses: actions/upload-artifact@v3.1.2
+        with:
+          name: nuget
+          path: build/**/PanelSwWpfControls/bin/Release/PanelSwWpfControls.dll
+
+      - name: Publish nuget package to github and nuget.org
+        if: ${{ github.event.inputs.publish_nuget == 'true' }}
+        run: |
+          nuget pack -version ${{ env.FULL_VERSION }} PanelSwWpfControls\PanelSwWpfControls.nuspec
+          dotnet nuget add source --username ${{ github.actor }} --password ${{ secrets.RW_PAT }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
+          dotnet nuget push PanelSwWpfControls.${{ env.FULL_VERSION }}.nupkg --api-key ${{ secrets.GITHUB_TOKEN }} --source github
+          dotnet nuget push PanelSwWpfControls.${{ env.FULL_VERSION }}.nupkg --api-key ${{ secrets.NUGET_TOKEN }} --source https://api.nuget.org/v3/index.json
+          git tag v${{ env.FULL_VERSION }}
+          git push --tags

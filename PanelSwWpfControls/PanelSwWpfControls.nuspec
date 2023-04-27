@@ -9,8 +9,20 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <licenseUrl>https://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
     <projectUrl>https://github.com/nirbar/PanelSwWpfControls.git</projectUrl>
+    <repository type="git" url="https://github.com/nirbar/PanelSwWpfControls.git"/>
     <description>Collection of WPF custom controls</description>
     <summary>Collection of WPF custom controls</summary>
     <tags>WPF XAML</tags>
+    <frameworkReferences>
+      <group targetFramework="net6.0-windows7.0">
+        <frameworkReference name="Microsoft.WindowsDesktop.App" />
+      </group>
+      <group targetFramework=".NETFramework4.0" />
+    </frameworkReferences>
   </metadata>
+
+  <files>
+    <file src="..\build\net40\PanelSwWpfControls\bin\Release\PanelSwWpfControls.dll" target="lib\net40"/>
+    <file src="..\build\net6.0-windows\PanelSwWpfControls\bin\Release\PanelSwWpfControls.dll" target="lib\net6.0-windows7.0"/>
+  </files>
 </package>
