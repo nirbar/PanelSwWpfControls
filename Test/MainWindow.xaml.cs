@@ -1,4 +1,4 @@
-﻿using Microsoft.Win32;
+using Microsoft.Win32;
 using PanelSW.WPF.Controls;
 using System;
 using System.Runtime.InteropServices;
@@ -66,13 +66,13 @@ namespace Test
             Task.Factory.StartNew(() =>
             {
                 Thread.Sleep(5000);
-                Dispatcher.Invoke(() => btn.IsWaiting = false);
+                Dispatcher.Invoke(new Action(() => btn.IsWaiting = false));
             });
         }
 
 
         public string FilePath { get; set; } = "Some File";
-        public string Folder { get; set; } = "C:\\Some Folder";
+        public string FolderPath { get; set; } = "C:\\Some Folder";
 
         private void OpenCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {

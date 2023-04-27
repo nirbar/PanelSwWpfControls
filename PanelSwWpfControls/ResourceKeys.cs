@@ -1,4 +1,4 @@
-﻿using System.Windows;
+using System.Windows;
 
 namespace PanelSW.WPF.Controls
 {
@@ -25,7 +25,7 @@ namespace PanelSW.WPF.Controls
 
         /// <summary>
         /// </summary>
-        public static readonly ComponentResourceKey EyePasswordBoxWatermarkPasswordBoxStyleKey = new ComponentResourceKey(typeof(ResourceKeys), "EyePasswordBoxWatermarkPasswordBoxStyle");
+        public static readonly ComponentResourceKey EyePasswordBoxPasswordBoxStyleKey = new ComponentResourceKey(typeof(ResourceKeys), "EyePasswordBoxPasswordBoxStyle");
 
         /// <summary>
         /// </summary>

@@ -1,18 +1,17 @@
-﻿using System;
+using System;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
-using Xceed.Wpf.Toolkit;
 
 namespace PanelSW.WPF.Controls
 {
     /// <summary>
     /// Password control with a button that shows plain password when pressed.
     /// </summary>
-    [TemplatePart(Name = "PART_WatermarkPasswordBox", Type = typeof(WatermarkPasswordBox))]
+    [TemplatePart(Name = "PART_PasswordBox", Type = typeof(PasswordBox))]
     [TemplatePart(Name = "PART_ShowPasswordButton", Type = typeof(ButtonBase))]
     [TemplatePart(Name = "PART_PlainTextBox", Type = typeof(TextBox))]
     [TemplateVisualState(Name = "HiddenPassword", GroupName = "ValueStates")]
@@ -39,7 +38,7 @@ namespace PanelSW.WPF.Controls
         {
             base.OnApplyTemplate();
 
-            WatermarkPasswordBox = GetTemplateChild("PART_WatermarkPasswordBox") as WatermarkPasswordBox;
+            PasswordBox = GetTemplateChild("PART_PasswordBox") as PasswordBox;
             ShowPasswordButton = GetTemplateChild("PART_ShowPasswordButton") as ButtonBase;
             PlainTextBox = GetTemplateChild("PART_PlainTextBox") as TextBox;
 
@@ -49,24 +48,24 @@ namespace PanelSW.WPF.Controls
         void IDisposable.Dispose()
         {
             SecurePassword.Dispose();
-            WatermarkPasswordBox?.SecurePassword?.Dispose();
+            PasswordBox?.SecurePassword?.Dispose();
         }
 
-        private WatermarkPasswordBox watermarkPasswordBox_ = null;
-        private WatermarkPasswordBox WatermarkPasswordBox
+        private PasswordBox PasswordBox_ = null;
+        private PasswordBox PasswordBox
         {
-            get => watermarkPasswordBox_;
+            get => PasswordBox_;
             set
             {
-                if (watermarkPasswordBox_ != null)
+                if (PasswordBox_ != null)
                 {
-                    watermarkPasswordBox_.PasswordChanged -= PasswordBox__PasswordChanged;
+                    PasswordBox_.PasswordChanged -= PasswordBox__PasswordChanged;
                 }
 
-                watermarkPasswordBox_ = value;
-                if (watermarkPasswordBox_ != null)
+                PasswordBox_ = value;
+                if (PasswordBox_ != null)
                 {
-                    watermarkPasswordBox_.PasswordChanged += PasswordBox__PasswordChanged;
+                    PasswordBox_.PasswordChanged += PasswordBox__PasswordChanged;
                 }
             }
         }
@@ -108,17 +107,17 @@ namespace PanelSW.WPF.Controls
 
         private void CopyPasswordToBox()
         {
-            if (WatermarkPasswordBox == null)
+            if (PasswordBox == null)
             {
                 return;
             }
 
-            if (WatermarkPasswordBox.SecurePassword != SecurePassword)
+            if (PasswordBox.SecurePassword != SecurePassword)
             {
                 IntPtr valuePtr = IntPtr.Zero;
                 try
                 {
-                    WatermarkPasswordBox.SecurePassword.Clear();
+                    PasswordBox.SecurePassword.Clear();
                     if (SecurePassword == null)
                     {
                         return;
@@ -128,10 +127,8 @@ namespace PanelSW.WPF.Controls
                     for (int i = 0; i < SecurePassword.Length; ++i)
                     {
                         char c = (char)Marshal.ReadInt16(valuePtr, 2 * i);
-                        WatermarkPasswordBox.SecurePassword.AppendChar(c);
+                        PasswordBox.SecurePassword.AppendChar(c);
                     }
-                    // Workaround since WatermarkPasswordBox doesn't automatically update the text.
-                    WatermarkPasswordBox.Text = new string(WatermarkPasswordBox.PasswordChar, SecurePassword.Length);
                 }
                 finally
                 {
@@ -151,12 +148,12 @@ namespace PanelSW.WPF.Controls
                 VisualStateManager.GoToState(this, "PlainPassword", true);
                 if (PlainTextBox != null)
                 {
-                    PlainTextBox.Text = WatermarkPasswordBox?.Password ?? string.Empty;
+                    PlainTextBox.Text = PasswordBox?.Password ?? string.Empty;
                     PlainTextBox.Visibility = Visibility.Visible;
                 }
-                if (WatermarkPasswordBox != null)
+                if (PasswordBox != null)
                 {
-                    WatermarkPasswordBox.Visibility = Visibility.Collapsed;
+                    PasswordBox.Visibility = Visibility.Collapsed;
                 }
             }
             else
@@ -167,9 +164,9 @@ namespace PanelSW.WPF.Controls
                     PlainTextBox.Text = "";
                     PlainTextBox.Visibility = Visibility.Collapsed;
                 }
-                if (WatermarkPasswordBox != null)
+                if (PasswordBox != null)
                 {
-                    WatermarkPasswordBox.Visibility = Visibility.Visible;
+                    PasswordBox.Visibility = Visibility.Visible;
                 }
             }
         }
@@ -178,9 +175,9 @@ namespace PanelSW.WPF.Controls
         {
             Dispatcher.BeginInvoke((Action)delegate ()
             {
-                if (WatermarkPasswordBox.SecurePassword != SecurePassword)
+                if (PasswordBox.SecurePassword != SecurePassword)
                 {
-                    SecurePassword = WatermarkPasswordBox.SecurePassword;
+                    SecurePassword = PasswordBox.SecurePassword;
                 }
             });
         }
@@ -241,30 +238,6 @@ namespace PanelSW.WPF.Controls
         {
             add { AddHandler(IsShowingPlainPasswordChangedEvent, value); }
             remove { RemoveHandler(IsShowingPlainPasswordChangedEvent, value); }
-        }
-
-        #endregion
-
-        #region Watermark
-
-        /// <summary>
-        /// DependencyProperty for Watermark
-        /// </summary>
-        public static readonly DependencyProperty WatermarkProperty = DependencyProperty.Register("Watermark", typeof(string), typeof(EyePasswordBox), new PropertyMetadata(""));
-
-        /// <summary>
-        /// Watermark to show when password is empty
-        /// </summary>
-        public string Watermark
-        {
-            get
-            {
-                return (string)GetValue(WatermarkProperty);
-            }
-            set
-            {
-                SetValue(WatermarkProperty, value);
-            }
         }
 
         #endregion

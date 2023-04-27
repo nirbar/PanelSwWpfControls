@@ -1,18 +1,20 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2010
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33122.133
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PanelSwWpfControls", "PanelSwWpfControls\PanelSwWpfControls.csproj", "{C8187384-43BC-4A0B-A40A-2F2E46B2D597}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{5DF12B2C-E820-40F6-AD44-A594461D753B}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A063DEDA-4CD9-4832-A738-0A323602FE58}"
 	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		Directory.Build.props = Directory.Build.props
 		README.md = README.md
 		TidyBuild.custom.props = TidyBuild.custom.props
 		TidyBuild.user.props = TidyBuild.user.props
 	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PanelSwWpfControls", "PanelSwWpfControls\PanelSwWpfControls.csproj", "{96B86418-A9FF-4E2F-865B-CA942E16788F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test", "Test\Test.csproj", "{813BD655-B016-49F2-A41E-AF28A2429DE8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,14 +22,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C8187384-43BC-4A0B-A40A-2F2E46B2D597}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C8187384-43BC-4A0B-A40A-2F2E46B2D597}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C8187384-43BC-4A0B-A40A-2F2E46B2D597}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C8187384-43BC-4A0B-A40A-2F2E46B2D597}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5DF12B2C-E820-40F6-AD44-A594461D753B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5DF12B2C-E820-40F6-AD44-A594461D753B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5DF12B2C-E820-40F6-AD44-A594461D753B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5DF12B2C-E820-40F6-AD44-A594461D753B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96B86418-A9FF-4E2F-865B-CA942E16788F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96B86418-A9FF-4E2F-865B-CA942E16788F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96B86418-A9FF-4E2F-865B-CA942E16788F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96B86418-A9FF-4E2F-865B-CA942E16788F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{813BD655-B016-49F2-A41E-AF28A2429DE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{813BD655-B016-49F2-A41E-AF28A2429DE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{813BD655-B016-49F2-A41E-AF28A2429DE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{813BD655-B016-49F2-A41E-AF28A2429DE8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

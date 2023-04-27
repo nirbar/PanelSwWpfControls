@@ -1,6 +1,5 @@
 ﻿<Window x:Class="Test.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:math="http://hexinnovation.com/math"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -16,8 +15,6 @@
         <CommandBinding Command="ApplicationCommands.Open"  Executed="OpenCommand_Executed"/>
     </Window.CommandBindings>
     <Window.Resources>
-        <math:MathConverter x:Key="math" />
-
         <sys:String x:Key="ClickMe">Click me</sys:String>
         <wpf:Visibility x:Key="Visible">Visible</wpf:Visibility>
         <wpf:Visibility x:Key="Collapsed">Collapsed</wpf:Visibility>
@@ -31,7 +28,7 @@
             <Setter Property="Border.BorderBrush" Value="Red"/>
             <Setter Property="Border.CornerRadius" Value="10"/>
         </Style>
-        
+
         <Style x:Key="{x:Static controls:ResourceKeys.WaitableButtonProgressBarStyleKey}" BasedOn="{StaticResource {x:Static controls:ResourceKeys.WaitableButtonProgressBarStyleKey}}">
             <Setter Property="Control.Width" Value="80"/>
             <Setter Property="Control.Height" Value="40"/>
@@ -44,26 +41,6 @@
                     <ControlTemplate TargetType="ProgressBar">
                         <Grid>
                             <Ellipse Fill="#FF6DB4EF" />
-                            <Ellipse Stroke="Black" StrokeThickness="2" Fill="Transparent">
-                                <Ellipse.Width>
-                                    <!-- (Width * (Value - Minimum)) / (Maximum - Minimum) -->
-                                    <MultiBinding Converter="{StaticResource math}" ConverterParameter="([0] * ([3] - [1])) / ([2] - [1])">
-                                        <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Width" />
-                                        <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Minimum" />
-                                        <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Maximum" />
-                                        <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Value" />
-                                    </MultiBinding>
-                                </Ellipse.Width>
-                                <Ellipse.Height>
-                                    <!-- (Height * (Value - Minimum)) / (Maximum - Minimum) -->
-                                    <MultiBinding Converter="{StaticResource math}" ConverterParameter="([0] * ([3] - [1])) / ([2] - [1])">
-                                        <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Height" />
-                                        <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Minimum" />
-                                        <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Maximum" />
-                                        <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Value" />
-                                    </MultiBinding>
-                                </Ellipse.Height>
-                            </Ellipse>
                         </Grid>
                         <ControlTemplate.Triggers>
                             <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsIndeterminate}" Value="True">
@@ -96,7 +73,6 @@
     <UniformGrid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Columns="1">
 
         <controls:EyePasswordBox SecurePassword="{Binding SecurePassword, UpdateSourceTrigger=PropertyChanged}" 
-                                 Watermark="Password here"
                                  BorderThickness="1" BorderBrush="Gray" Padding="16,0,0,0"/>
 
         <controls:WaitableButton Content="{Binding Source={StaticResource ClickMe}, Converter={converters:RegexConverter RegexExpression='(\\w+) (\\w+)', Replacement='$1 $2 ?'}}"
@@ -112,11 +88,11 @@
 
 
         <CheckBox x:Name="cb1_" Content="Check"/>
-        <CheckBox Content="Visible if unchecked" IsEnabled="False"
-                  Visibility="{Binding ElementName=cb1_, Path=IsChecked, Converter={converters:IsInCollectionConverter EqualValue={StaticResource Visible}, InequalValue={StaticResource Hidden}, Collection={StaticResource CollectionValues}}}"
-                  />
-        <CheckBox Content="Visible if checked" IsEnabled="False"
-                  Visibility="{Binding ElementName=cb1_, Path=IsChecked, Converter={converters:EqualityConverter EqualValue={StaticResource Hidden}, InequalValue={StaticResource Visible}, Collection={StaticResource CollectionValues}}}"
-                  />
+        <TextBlock Text="Visible if unchecked"
+                   Visibility="{Binding ElementName=cb1_, Path=IsChecked, Converter={converters:IsInCollectionConverter EqualValue={StaticResource Visible}, InequalValue={StaticResource Hidden}, Collection={StaticResource CollectionValues}}}"
+                   />
+        <TextBlock Text="Visible if checked" IsEnabled="False"
+                   Visibility="{Binding ElementName=cb1_, Path=IsChecked, Converter={converters:EqualityConverter EqualValue={StaticResource Hidden}, InequalValue={StaticResource Visible}, Collection={StaticResource CollectionValues}}}"
+                   />
     </UniformGrid>
 </Window>
