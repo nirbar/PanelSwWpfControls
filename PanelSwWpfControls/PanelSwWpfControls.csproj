@@ -6,19 +6,28 @@
     <UseWPF>true</UseWPF>
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
+  
+  <PropertyGroup Label="nuspec">
+    <PackageVersion>$(FullVersion)</PackageVersion>
+    <PackageLicenseExpression>MIT-0</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/nirbar/PanelSwWpfControls.git</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/nirbar/PanelSwWpfControls.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <Authors>Nir Bar</Authors>
+    <Title>WPF controls</Title>
+    <PackageTags>WPF XAML PanelSW</PackageTags>
+    <PackageDescription>Collection of WPF custom controls and commands</PackageDescription>
+  </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resources\baseline_visibility_black_24dp.png" />
+    <PackageReference Include="TidyBuild" Version="1.5.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="TidyBuild" Version="1.5.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="Resources\baseline_folder_open_black_24dp.png" />
-    <Resource Include="Resources\baseline_visibility_black_24dp.png" />
-    <Resource Include="Resources\baseline_visibility_off_black_24dp.png" />
+    <Resource Include="Resources\*" />
   </ItemGroup>
 
 </Project>

@@ -1,18 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
-
-    <BuildFolder>$(MSBuildThisFileDirectory)\build\$(TargetFramework)\</BuildFolder>
-    <OutputPath>$(BuildFolder)$(MSBuildProjectName)\bin\$(Configuration)\</OutputPath>
+    <BaseBuildFolder>$(MSBuildThisFileDirectory)\build\</BaseBuildFolder>
+    <BuildFolder>$(BaseBuildFolder)$(TargetFramework)\</BuildFolder>
+    <OutputPath>$(BuildFolder)$(MSBuildProjectName)\$(Configuration)\bin\</OutputPath>
     <OutDirLib>$(BuildFolder)lib\$(Configuration)\</OutDirLib>
-    <IntermediateOutputPath>$(BuildFolder)$(MSBuildProjectName)\obj\$(Configuration)\</IntermediateOutputPath>
-
+    <IntermediateOutputPath>$(BuildFolder)$(MSBuildProjectName)\$(Configuration)\obj\</IntermediateOutputPath>
     
     <BaseOutputPath>$(OutputPath)..\</BaseOutputPath>
-    <BaseIntermediateOutputPath>$(IntermediateOutputPath)..\</BaseIntermediateOutputPath>
-    <!--
-    <MSBuildProjectExtensionsPath Condition="'$(MSBuildProjectExtensionsPath )'==''">$(BaseIntermediateOutputPath)obj</MSBuildProjectExtensionsPath >
-    -->
+    <BaseIntermediateOutputPath>$(BaseBuildFolder)$(MSBuildProjectName)\</BaseIntermediateOutputPath>
 
     <OutDir>$(OutputPath)</OutDir>
     <IntDir>$(IntermediateOutputPath)</IntDir>
